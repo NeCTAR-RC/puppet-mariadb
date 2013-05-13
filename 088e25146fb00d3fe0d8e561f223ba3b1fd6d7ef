@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAASH///pc\u003d",
+        "filename": "files/master-replication.cnf",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2013-05-13T05:52:32Z",
+      "side": 1,
+      "message": "This file can be deleted",
+      "revId": "088e25146fb00d3fe0d8e561f223ba3b1fd6d7ef",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAASH///pY\u003d",
+        "filename": "files/slave-replication.cnf",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2013-05-13T05:52:32Z",
+      "side": 1,
+      "message": "This file can be deleted",
+      "revId": "088e25146fb00d3fe0d8e561f223ba3b1fd6d7ef",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAASH///pU\u003d",
+        "filename": "manifests/init.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2013-05-13T05:52:32Z",
+      "side": 1,
+      "message": "whitespace",
+      "revId": "088e25146fb00d3fe0d8e561f223ba3b1fd6d7ef",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAASH///pQ\u003d",
+        "filename": "manifests/master.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2013-05-13T05:52:32Z",
+      "side": 1,
+      "message": "This file can be deleted",
+      "revId": "088e25146fb00d3fe0d8e561f223ba3b1fd6d7ef",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAASH///pM\u003d",
+        "filename": "manifests/packages.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2013-05-13T05:52:32Z",
+      "side": 1,
+      "message": "whitespace",
+      "revId": "088e25146fb00d3fe0d8e561f223ba3b1fd6d7ef",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAASH///pI\u003d",
+        "filename": "manifests/slave.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2013-05-13T05:52:32Z",
+      "side": 1,
+      "message": "This file can be deleted",
+      "revId": "088e25146fb00d3fe0d8e561f223ba3b1fd6d7ef",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAASH///pE\u003d",
+        "filename": "templates/mariadb.cnf.erb",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2013-05-13T05:52:32Z",
+      "side": 1,
+      "message": "whitespace",
+      "revId": "088e25146fb00d3fe0d8e561f223ba3b1fd6d7ef",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
