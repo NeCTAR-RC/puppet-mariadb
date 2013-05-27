@@ -81,16 +81,6 @@ class mariadb::config(
   # won't start up properly because rsync is still running. We kill it here
   # before starting the service to give us a better chance.
   exec { 'mariadb-restart':
-    command     => 'pgrep -u mysql rsync | xargs kill; sleep 5',
-    path        => '/usr/bin:/bin:/usr/sbin:/sbin',
-    refreshonly => true,
-    logoutput   => on_failure,
-  }
-
-  # This kind of sucks, that I have to specify a difference resource for
-  # restart.  the reason is that I need the service to be started before mods
-  # to the config file which can cause a refresh
-  exec { 'mariadb-real-restart':
     command     => "service ${service_name} restart",
     logoutput   => on_failure,
     path        => '/sbin/:/usr/sbin/:/usr/bin/:/bin/',

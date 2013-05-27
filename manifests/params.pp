@@ -17,6 +17,7 @@ class mariadb::params {
   $etc_root_password   = false
   $ssl                 = false
   $restart             = true
+  $slave_threads       = $::processorcount * 2
 
   case $::osfamily {
     'RedHat': {
@@ -69,7 +70,7 @@ class mariadb::params {
     }
 
     default: {
-      fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, module ${module_name} only support osfamily RedHat, Debian, and FreeBSD, or operatingsystem Amazon")
+      fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, module ${module_name} only support osfamily RedHat, Debian")
     }
   }
 
