@@ -36,6 +36,9 @@ max_binlog_size    = 100M
 <% if default_engine != 'UNSET' %>
 default-storage-engine = <%= default_engine %>
 <% end %>
+<% if innodb_file_per_table != false -%>
+innodb_file_per_table
+<% end -%>
 <% if ssl == true %>
 ssl-ca    = <%= ssl_ca %>
 ssl-cert  = <%= ssl_cert %>

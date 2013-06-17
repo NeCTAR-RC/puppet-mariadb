@@ -7,11 +7,9 @@ wsrep_cluster_name = <%= @wsrep_cluster_name %>
 wsrep_sst_auth = '<%= @wsrep_sst_auth %>'
 wsrep_sst_method = <%= @wsrep_sst_method %>
 wsrep_slave_threads = <%= @wsrep_slave_threads %>
+wsrep_node_address = <%= @config_hash['bind_address'] %>
 
 binlog_format = ROW
 default_storage_engine = InnoDB
 innodb_autoinc_lock_mode = 2
 innodb_locks_unsafe_for_binlog = 1
-
-
-

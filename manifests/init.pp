@@ -13,11 +13,11 @@
 #
 class mariadb (
   $package_names  = $mariadb::params::client_package_names,
-  $package_ensure = 'present'
+  $ensure = 'present'
 ) inherits mariadb::params {
 
   package { $package_names:
-    ensure => $package_ensure,
+    ensure => $ensure,
   }
 
 }

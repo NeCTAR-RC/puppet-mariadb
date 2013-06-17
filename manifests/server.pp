@@ -22,28 +22,30 @@ class mariadb::server (
   $client_package_names    = $mariadb::params::client_package_names,
   $client_package_ensure   = $mariadb::params::client_package_ensure,
   $debiansysmaint_password = undef,
-  $config_hash             = {},
+  $config_hash             = {
+  }
+  ,
   $enabled                 = true,
-  $manage_service          = true
-) inherits mariadb::params {
-
+  $manage_service          = true) inherits mariadb::params {
   class { 'mariadb':
-    package_names  => $client_package_names,
-    package_ensure => $client_package_ensure
+    package_names => $client_package_names,
+    ensure        => $client_package_ensure
   }
 
   Class['mariadb::server'] -> Class['mariadb::config']
 
-  $config_class = { 'mariadb::config' => $config_hash }
+  $config_class = {
+    'mariadb::config' => $config_hash
+  }
 
-  create_resources( 'class', $config_class )
+  create_resources('class', $config_class)
 
   package { $package_names:
     ensure  => $package_ensure,
-    require => Package[$client_package_names] 
+    require => Package[$client_package_names]
   }
 
-  #if $debiansysmaint_password != undef {
+  # if $debiansysmaint_password != undef {
   #  file { '/etc/mysql/debian.cnf':
   #    content => template('mariadb/debian.cnf.erb'),
   #  }
