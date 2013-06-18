@@ -50,21 +50,18 @@ define mariadb::db (
   database { $name:
     ensure   => $ensure,
     charset  => $charset,
-    provider => 'mysql',
     require  => Class['mariadb::server'],
   }
 
   database_user { "${user}@${host}":
     ensure        => $ensure,
     password_hash => mysql_password($password),
-    provider      => 'mysql',
     require       => Database[$name],
   }
 
   if $ensure == 'present' {
     database_grant { "${user}@${host}/${name}":
       privileges => $grant,
-      provider   => 'mysql',
       require    => Database_user["${user}@${host}"],
     }
 

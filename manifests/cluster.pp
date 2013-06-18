@@ -22,7 +22,6 @@ class mariadb::cluster (
   $debiansysmaint_password,
   $wsrep_sst_password,
   $status_password,
-  $cluster_master,
   $cluster_servers,
   $wsrep_sst_user       = 'root',
   $wsrep_cluster_name   = 'my_wsrep_cluster',
