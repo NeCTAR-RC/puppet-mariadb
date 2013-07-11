@@ -51,6 +51,8 @@ class mariadb::cluster (
 
   package { $galera_name: ensure => $galera_ensure, }
 
+  package { 'netcat-openbsd': ensure => $package_ensure }
+
   class {
     'mariadb::server':
       package_names           => $package_names,
