@@ -48,11 +48,14 @@ class mariadb::params {
       $basedir = '/usr'
       $datadir = '/var/lib/mysql'
       $service_name = 'mysql'
-      $client_package_names = 'mariadb-client'
-#      [
-#        'libmysqlclient18',
-#        'mysql-common',
-#        'mariadb-client']
+      $client_package_names = [
+        'mariadb-client',
+        'percona-xtrabackup',
+        'netcat-openbsd']
+      #      [
+      #        'libmysqlclient18',
+      #        'mysql-common',
+      #        'mariadb-client']
       $client_package_ensure = 'present' # '5.5.30-mariadb1~precise'
       $server_package_names = ['mariadb-server']
       $cluster_package_names = ['mariadb-galera-server']
