@@ -48,10 +48,7 @@ class mariadb::params {
       $basedir = '/usr'
       $datadir = '/var/lib/mysql'
       $service_name = 'mysql'
-      $client_package_names = [
-        'mariadb-client',
-        'percona-xtrabackup',
-        'netcat-openbsd']
+      $client_package_names = ['mariadb-client', 'netcat-openbsd']
       #      [
       #        'libmysqlclient18',
       #        'mysql-common',

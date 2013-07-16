@@ -88,7 +88,7 @@ class mariadb::cluster (
     ), }
 
   if $wsrep_sst_method == 'xtrabackup' {
-    package { 'percona-xtrabackup': ensure => installed }
+    package { 'percona-xtrabackup': ensure => 'installed' }
   }
 
 }
