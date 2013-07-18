@@ -43,6 +43,11 @@ class mariadb::server (
     require => Package[$client_package_names] 
   }
 
+  file { '/var/log/mysql/error.log':
+    owner => mysql,
+    require => Package[$package_names],
+  }
+
   #if $debiansysmaint_password != undef {
   #  file { '/etc/mysql/debian.cnf':
   #    content => template('mariadb/debian.cnf.erb'),
