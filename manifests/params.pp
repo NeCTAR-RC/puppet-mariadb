@@ -51,7 +51,7 @@ class mariadb::params {
       $service_name           = 'mysql'
       $client_package_names   = ['libmysqlclient18', 'mysql-common', 'mariadb-client']
       $client_package_ensure  = '5.5.31+maria-1~precise'
-      $server_package_names   = ['mariadb-server']
+      $server_package_names   = ['mariadb-server', 'netcat-openbsd']
       $cluster_package_names  = ['mariadb-galera-server']
       $cluster_package_ensure = '5.5.29-mariadb1~precise'
       $galera_package_name    = 'galera'
