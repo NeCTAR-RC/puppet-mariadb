@@ -77,11 +77,12 @@ class mariadb::cluster (
   # |addr|; if addr == cluster_master; %><%= '' %><% else %><%= cluster_master
   # %><% end; end %>"
   #)
-  if $::ipaddress_private == $cluster_master {
-    $cluster_peer = ''
-  } else {
-    $cluster_peer = $cluster_master
-  }
+#  if $::ipaddress_private == $cluster_master {
+#    $cluster_peer = ''
+#  } else {
+#    $cluster_peer = $cluster_master
+#  }
+  $cluster_peer = inline_template("<%= [cluster_servers].flatten.join(',') %>")
   $wsrep_sst_auth = "${wsrep_sst_user}:${wsrep_sst_password}"
 
   file { '/etc/mysql/conf.d/galera_replication.cnf': content => template('mariadb/galera_replication.cnf.erb'

@@ -99,7 +99,7 @@ define mariadb::server::config (
     owner   => 'root',
     group   => $mariadb::config::root_group,
     mode    => '0644',
-    require => Package['mariadb-server'],
+    #require => Package['mariadb-server'],
   }
 
   if $notify_service {
