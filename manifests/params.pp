@@ -53,7 +53,7 @@ class mariadb::params {
       $client_package_ensure  = 'installed'
       $server_package_names   = ['mariadb-server']
       $cluster_package_names  = ['mariadb-galera-server']
-      $cluster_package_ensure = '5.5.29-mariadb1~precise'
+      $cluster_package_ensure = 'installed'
       $galera_package_name    = 'galera'
       $socket                 = '/var/run/mysqld/mysqld.sock'
       $pidfile                = '/var/run/mysqld/mysqld.pid'
