@@ -8,6 +8,11 @@ class mariadb::cluster::status (
     mode    => '0755',
   }
 
+  file { '/usr/local/bin/clustercheck-maintenance':
+    source => 'puppet:///modules/mariadb/clustercheck-maintenance.sh',
+    mode   => '0755',
+  }
+
   augeas { 'mysqlchk':
     context => '/files/etc/services',
     changes => [
