@@ -21,6 +21,9 @@ skip-external-locking
 bind-address    = <%= bind_address %>
 <% end %> 
 
+
+wait_timeout       = 60
+
 key_buffer         = 16M
 max_allowed_packet = 16M
 thread_stack       = 192K

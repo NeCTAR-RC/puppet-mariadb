@@ -85,7 +85,6 @@ class mariadb::config(
     logoutput   => on_failure,
     path        => '/sbin/:/usr/sbin/:/usr/bin/:/bin/',
     refreshonly => true,
-    subscribe   => Exec['mariadb-restart']
   }
 
   # manage root password if it is set

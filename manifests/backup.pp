@@ -33,9 +33,7 @@ class mariadb::backup (
 
   database_user { "${backupuser}@localhost":
     ensure        => $ensure,
-    password_hash => mariadb_password($backuppassword),
-    provider      => 'mysql',
-    require       => Class['mariadb::config'],
+    password_hash => mysql_password($backuppassword),
   }
 
   database_grant { "${backupuser}@localhost":
