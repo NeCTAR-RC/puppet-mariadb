@@ -8,7 +8,7 @@ class mariadb::server::monitor (
 
   database_user{ "${mariadb_monitor_username}@${mariadb_monitor_hostname}":
     ensure        => present,
-    password_hash => mariadb_password($mariadb_monitor_password),
+    password_hash => mysql_password($mariadb_monitor_password),
   }
 
   database_grant { "${mariadb_monitor_username}@${mariadb_monitor_hostname}":
