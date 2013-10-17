@@ -88,54 +88,54 @@ class mariadb::config (
   }
 
   # manage root password if it is set
-  if $root_password != 'UNSET' {
-    case $old_root_password {
-      ''      : { $old_pw = '' }
-      default : { $old_pw = "-p'${old_root_password}'" }
-    }
+#  if $root_password != 'UNSET' {
+#    case $old_root_password {
+#      ''      : { $old_pw = '' }
+#      default : { $old_pw = "-p'${old_root_password}'" }
+#    }
+#
+#    exec { 'set_mariadb_rootpw':
+#      command   => "mysqladmin -u root ${old_pw} password '${root_password}'",
+#      logoutput => true,
+#      unless    => "mysqladmin -u root -p'${root_password}' status > /dev/null",
+#      path      => '/usr/local/sbin:/usr/bin:/usr/local/bin',
+#      notify    => $restart ? {
+#        true  => Exec['mariadb-restart'],
+#        false => undef,
+#      },
+#      require   => Package[$mariadb::params::client_package_names],
+#    }
+#
+#    if $etc_root_password {
+#      file { '/etc/my.cnf':
+#        content => template('mariadb/my.cnf.pass.erb'),
+#        require => Exec['set_mariadb_rootpw'],
+#      }
+#    }
+#  } else {
+#    #file { '/root/.my.cnf': ensure => present, }
+#  }
 
-    exec { 'set_mariadb_rootpw':
-      command   => "mysqladmin -u root ${old_pw} password '${root_password}'",
-      logoutput => true,
-      unless    => "mysqladmin -u root -p'${root_password}' status > /dev/null",
-      path      => '/usr/local/sbin:/usr/bin:/usr/local/bin',
-      notify    => $restart ? {
-        true  => Exec['mariadb-restart'],
-        false => undef,
-      },
-      require   => Package[$mariadb::params::client_package_names],
-    }
+#  file { '/root/.my.cnf':
+#    content => template('mariadb/my.cnf.pass.erb'),
+#    require => Exec['set_mariadb_rootpw'];
+#  #    '/etc/mysql':
+#  #      ensure => directory,
+#  #      mode   => '0755';
+#
+#  #    '/etc/mysql/conf.d':
+#  #      ensure  => directory,
+#  #      mode    => '0755',
+#  #      recurse => $purge_conf_dir,
+#  #      purge   => $purge_conf_dir,
+#  #      require => File['/etc/mysql'];
+#  }
 
-    if $etc_root_password {
-      file { '/etc/my.cnf':
-        content => template('mariadb/my.cnf.pass.erb'),
-        require => Exec['set_mariadb_rootpw'],
-      }
-    }
-  } else {
-    file { '/root/.my.cnf': ensure => present, }
-  }
-
-  file {
-    '/root/.my.cnf':
-      content => template('mariadb/my.cnf.pass.erb'),
-      require => Exec['set_mariadb_rootpw'];
-
-#    '/etc/mysql':
-#      ensure => directory,
-#      mode   => '0755';
-
-#    '/etc/mysql/conf.d':
-#      ensure  => directory,
-#      mode    => '0755',
-#      recurse => $purge_conf_dir,
-#      purge   => $purge_conf_dir,
-#      require => File['/etc/mysql'];
-
-    $config_file:
+  if !defined(File[$config_file]) {
+    file { $config_file:
       content => template('mariadb/my.cnf.erb'),
       mode    => '0644',
-      #require => File['/etc/mysql']
+    # require => File['/etc/mysql']
+    }
   }
-
 }
