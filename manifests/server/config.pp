@@ -102,10 +102,10 @@ define mariadb::server::config (
     #require => Package['mariadb-server'],
   }
 
-  if $notify_service {
-    File["/etc/mysql/conf.d/${name}.cnf"] {
-      # XXX notifying the Service gives us a dependency circle but I don't understand why
-      notify => Exec['mariadb-restart']
-    }
-  }
+#  if $notify_service {
+#    File["/etc/mysql/conf.d/${name}.cnf"] {
+#      # XXX notifying the Service gives us a dependency circle but I don't understand why
+#      notify => Exec['mariadb-restart']
+#    }
+#  }
 }
