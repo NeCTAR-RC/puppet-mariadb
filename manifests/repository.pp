@@ -12,7 +12,7 @@ class mariadb::repository {
       key_server => 'pgp.mit.edu',
     }
   }
-  $base_url = "http://mirror.netcologne.de/mariadb/repo/5.5"
+  $base_url = "http://mirror.netcologne.de/mariadb/repo/10.0"
   $url = $::lsbdistid ? {
     'debian' => "${base_url}/debian",
     'ubuntu' => "${base_url}/ubuntu",
