@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAT3///Ok\u003d",
+        "filename": "manifests/repository.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2014-03-24T02:53:42Z",
+      "side": 0,
+      "message": "The new version doesn\u0027t have this any more. Is that a problem?",
+      "revId": "691b4a7128f5a34b9db83be817ee967388c3f885",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
