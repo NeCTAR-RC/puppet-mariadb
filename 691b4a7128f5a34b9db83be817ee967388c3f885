@@ -16,6 +16,24 @@
       "revId": "691b4a7128f5a34b9db83be817ee967388c3f885",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAT3///Kk\u003d",
+        "filename": "manifests/repository.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2014-03-25T03:59:31Z",
+      "side": 0,
+      "message": "Not a problem, it gets it from the apt-source stanza and used pgp.mit.edu as the default.",
+      "parentUuid": "AAAAT3///Ok\u003d",
+      "revId": "691b4a7128f5a34b9db83be817ee967388c3f885",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
