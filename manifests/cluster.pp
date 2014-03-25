@@ -23,6 +23,7 @@ class mariadb::cluster (
   $wsrep_sst_password,
   $status_password,
   $cluster_servers,
+  $cluster_iface        = 'eth0',
   $wsrep_sst_user       = 'root',
   $wsrep_cluster_name   = 'my_wsrep_cluster',
   $status_user          = 'clusterstatus',
@@ -62,7 +63,7 @@ class mariadb::cluster (
   }
 
   # Find the next server in the list as a peer to sync with
-  $cluster_peer = inline_template("<% (0..cluster_servers.length).each do |i|; if cluster_servers[i] == ipaddress; if (i+1) == cluster_servers.length %><%= cluster_servers[0] %><% else %><%= cluster_servers[i+1] %><% end; end; end %>")
+  $cluster_peer = inline_template("<% (0..cluster_servers.length).each do |i|; if cluster_servers[i] == ipaddress_${cluster_iface}; if (i+1) == cluster_servers.length %><%= cluster_servers[0] %><% else %><%= cluster_servers[i+1] %><% end; end; end %>")
 
   $wsrep_sst_auth = "${wsrep_sst_user}:${wsrep_sst_password}"
 
