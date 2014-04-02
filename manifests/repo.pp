@@ -1,4 +1,4 @@
-class mariadb::repos {
+class mariadb::repo {
 
   apt::source { 'mariadb':
     location    => 'http://mirror.aarnet.edu.au/pub/MariaDB/repo/5.5/ubuntu',
