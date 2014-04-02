@@ -16,23 +16,15 @@ class mariadb (
   $package_ensure = 'present'
 ) inherits mariadb::params {
 
-  anchor {'mariadb::begin': }
-  anchor {'mariadb::end': }
-
   # Set up repositories
-  class { 'mariadb::repos': }
+  class { 'mariadb::repo':
+    stage => setup,
+  }
 
   # Packages
-  class { 'mariadb::packages':
+  class { 'mariadb::package':
     package_names  => $package_names,
     package_ensure => $package_ensure,
   }
-
-  # Ensure that we set up the repositories before trying to install
-  # the packages
-  Anchor['mariadb::begin']
-  -> Class['mariadb::repos']
-  -> Class['mariadb::packages']
-  -> Anchor['mariadb::end']
 
 }
