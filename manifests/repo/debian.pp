@@ -1,7 +1,8 @@
-class mariadb::repo {
+class mariadb::repo::debian {
+  $version = $mariadb::repo_version
 
   apt::source { 'mariadb':
-    location => 'http://mirror.aarnet.edu.au/pub/MariaDB/repo/5.5/ubuntu',
+    location => 'http://mirror.aarnet.edu.au/pub/MariaDB/repo/${version}/ubuntu',
     repos    => 'main',
   }
 

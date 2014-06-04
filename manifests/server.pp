@@ -4,8 +4,36 @@
 # my.cnf
 #
 # Parameters:
-#   [*package_names*] - array of package names to install
-#   [*service_name*]  - name of service
+#   [*package_ensure*]
+#     Ensure value for the server packages. Set to `present` or a version number.
+#     If setting a version number see note below on `repo_version`. Ex.
+#     '5.5.37'.
+#   [*package_names*]
+#     Array of names of the mariadb server packages.
+#   [*service_name*]
+#     Name of the mariadb service
+#   [*service_provider*]
+#     Service type's provider
+#   [*client_package_names*]
+#     Array of names of the mariadb client packages.
+#   [*client_package_ensure*]
+#     Ensure value for the client packages. Set to `present` or a version number.
+#     If setting a version number see note below on `repo_version`. Ex.
+#     '5.5.37'.
+#   [*config_hash*]
+#     hash of config parameters that need to be set.
+#   [*enabled*]
+#     If true, enable the service to start on boot.
+#   [*repo_version*]
+#     Sets the version string for the repo URL. For Debian-based systems a
+#     'major.minor' version is expected. Ex. '5.5'. Set a more specific
+#     version using `package_ensure` parameter. For RedHat-based systems a
+#     full version is required. Ex. '5.5.37'. This is due to the way the
+#     yum package repo is configured.
+#   [*manage_service*]
+#     If true, manage the service.
+#   [*manage_repo*]
+#     If true, manage the yum or apt repo.
 #   [*config_hash*]   - hash of config parameters that need to be set.
 #
 # Actions:
@@ -15,8 +43,8 @@
 # Sample Usage:
 #
 class mariadb::server (
-  $package_names           = $mariadb::params::server_package_names,
   $package_ensure          = $mariadb::params::server_package_ensure,
+  $package_names           = $mariadb::params::server_package_names,
   $service_name            = $mariadb::params::service_name,
   $service_provider        = $mariadb::params::service_provider,
   $client_package_names    = $mariadb::params::client_package_names,
@@ -24,12 +52,16 @@ class mariadb::server (
   $debiansysmaint_password = undef,
   $config_hash             = {},
   $enabled                 = true,
-  $manage_service          = true
+  $repo_version            = '5.5',
+  $manage_service          = true,
+  $manage_repo             = true,
 ) inherits mariadb::params {
 
   class { 'mariadb':
     package_names  => $client_package_names,
-    package_ensure => $client_package_ensure
+    package_ensure => $client_package_ensure,
+    repo_version   => $repo_version,
+    manage_repo    => $manage_repo,
   }
 
   Class['mariadb::server'] -> Class['mariadb::config']
@@ -61,7 +93,16 @@ class mariadb::server (
   }
 
   if $manage_service {
-    service { 'mariadb':
+    $piddir = dirname($mariadb::params::pidfile)
+
+    file { $piddir:
+      ensure    => directory,
+      owner     => 'mysql',
+      group     => 'mysql',
+      mode      => '0755',
+    }
+
+    -> service { 'mariadb':
       ensure   => $service_ensure,
       name     => $service_name,
       enable   => $enabled,
