@@ -3,9 +3,10 @@ class mariadb::cluster::config (
   $wsrep_sst_auth,
   $wsrep_sst_method,
   $wsrep_slave_threads,
-) {
+  $config_dir           = $mariadb::params::config_dir,
+) inherits mariadb::params {
 
-  file { '/etc/mysql/conf.d/galera_replication.cnf':
+  file { "${config_dir}/galera_replication.cnf":
     content => template('mariadb/galera_replication.cnf.erb'),
   }
 
