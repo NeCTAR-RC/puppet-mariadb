@@ -83,8 +83,9 @@
 #
 define mariadb::server::config (
   $settings,
-  $notify_service = true
-) {
+  $notify_service = true,
+  $config_dir     = $mariadb::params::config_dir,
+) inherits mariadb::params {
   include mariadb::config
 
   if is_hash($settings) {
@@ -93,7 +94,7 @@ define mariadb::server::config (
     $content = $settings
   }
 
-  file { "/etc/mysql/conf.d/${name}.cnf":
+  file { "${config_file}/${name}.cnf":
     ensure  => file,
     content => $content,
     owner   => 'root',
@@ -103,7 +104,7 @@ define mariadb::server::config (
   }
 
   if $notify_service {
-    File["/etc/mysql/conf.d/${name}.cnf"] {
+    File["${config_dir}/${name}.cnf"] {
       # XXX notifying the Service gives us a dependency circle but I don't understand why
       notify => Exec['mariadb-restart']
     }
