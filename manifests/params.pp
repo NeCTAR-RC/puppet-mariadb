@@ -23,7 +23,7 @@ class mariadb::params {
     'RedHat': {
       $basedir                = '/usr'
       $datadir                = '/var/lib/mysql'
-      $service_name           = 'mysqld'
+      $service_name           = 'mysql'
       $client_package_names   = ['MariaDB-client']
       $client_package_ensure  = 'installed'
       $server_package_names   = ['MariaDB-server']
@@ -33,6 +33,7 @@ class mariadb::params {
       $socket                 = '/var/lib/mysql/mysql.sock'
       $pidfile                = '/var/run/mysqld/mysqld.pid'
       $config_file            = '/etc/my.cnf'
+      $config_dir             = '/etc/my.cnf.d'
       $log_error              = '/var/log/mysqld.log'
       $ruby_package_name      = 'ruby-mysql'
       $ruby_package_provider  = 'gem'
@@ -40,9 +41,11 @@ class mariadb::params {
       $php_package_name       = 'php-mysql'
       $java_package_name      = 'mysql-connector-java'
       $root_group             = 'root'
-      $ssl_ca                 = '/etc/mysql/cacert.pem'
-      $ssl_cert               = '/etc/mysql/server-cert.pem'
-      $ssl_key                = '/etc/mysql/server-key.pem'
+      $ssl_ca                 = "${config_dir}/cacert.pem"
+      $ssl_cert               = "${config_dir}/server-cert.pem"
+      $ssl_key                = "${config_dir}/server-key.pem"
+      $repo_class             = 'mariadb::repo::redhat'
+      $wsrep_provider         = '/usr/lib64/galera/libgalera_smm.so'
     }
 
     'Debian': {
@@ -58,15 +61,18 @@ class mariadb::params {
       $socket                 = '/var/run/mysqld/mysqld.sock'
       $pidfile                = '/var/run/mysqld/mysqld.pid'
       $config_file            = '/etc/mysql/my.cnf'
+      $config_dir             = '/etc/mysql/conf.d'
       $log_error              = '/var/log/mysql/error.log'
       $ruby_package_name      = 'libmysql-ruby'
       $python_package_name    = 'python-mysqldb'
       $php_package_name       = 'php5-mysql'
       $java_package_name      = 'libmysql-java'
       $root_group             = 'root'
-      $ssl_ca                 = '/etc/mysql/cacert.pem'
-      $ssl_cert               = '/etc/mysql/server-cert.pem'
-      $ssl_key                = '/etc/mysql/server-key.pem'
+      $ssl_ca                 = "${config_dir}/cacert.pem"
+      $ssl_cert               = "${config_dir}/server-cert.pem"
+      $ssl_key                = "${config_dir}//server-key.pem"
+      $repo_class             = 'mariadb::repo::debian'
+      $wsrep_provider         = '/usr/lib/galera/libgalera_smm.so'
     }
 
     default: {
