@@ -1,7 +1,7 @@
 # This file is managed by Puppet. DO NOT EDIT 
 
 [mysqld]
-wsrep_provider = /usr/lib/galera/libgalera_smm.so
+wsrep_provider = <%= @wsrep_provider %>
 wsrep_cluster_address = 'gcomm://<%= @cluster_peer %>'
 wsrep_cluster_name = <%= @wsrep_cluster_name %>
 wsrep_sst_auth = '<%= @wsrep_sst_auth %>'

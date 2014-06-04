@@ -40,6 +40,7 @@ class mariadb::config(
   $port              = $mariadb::params::port,
   $etc_root_password = $mariadb::params::etc_root_password,
   $service_name      = $mariadb::params::service_name,
+  $config_dir        = $mariadb::params::config_dir,
   $config_file       = $mariadb::params::config_file,
   $socket            = $mariadb::params::socket,
   $pidfile           = $mariadb::params::pidfile,
@@ -103,7 +104,7 @@ class mariadb::config(
         true => Exec['mariadb-restart'],
         false => undef,
       },
-      require   => File['/etc/mysql/conf.d'],
+      require   => File[$mariadb::params::config_dir],
     }
 
     file { '/root/.my.cnf':
@@ -123,11 +124,13 @@ class mariadb::config(
     }
   }
 
-  file { '/etc/mysql':
+  $config_file_dir = dirname($config_file)
+
+  file { $config_file_dir:
     ensure => directory,
     mode   => '0755',
   }
-  file { '/etc/mysql/conf.d':
+  file { $config_dir:
     ensure  => directory,
     mode    => '0755',
     recurse => $purge_conf_dir,
