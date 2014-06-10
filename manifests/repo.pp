@@ -5,9 +5,11 @@ class mariadb::repo {
     repos    => 'main',
   }
 
-  $key_options = $::rfc1918_gateway ? {
-    'true'  => "http-proxy=http://${::http_proxy_server}:${::http_proxy_port}",
-    default => false,
+  if $::http_proxy and $::rfc1918_gateway == 'true' {
+    $key_options = "http-proxy=${::http_proxy}"
+  }
+  else {
+    $key_options = false
   }
 
   apt::key { 'mariadb':
