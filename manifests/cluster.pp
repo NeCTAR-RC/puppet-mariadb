@@ -41,6 +41,8 @@
 #     yum package repo is configured.
 #   [*config_hash*]
 #     hash of config parameters that need to be set.
+#   [*enabled*]
+#     If true, enable the service to start on boot.
 #   [*single_cluster_peer*]
 #     If true, configure each node to sync with only one other node. Sets
 #     `wsrep_cluster_address = 'gcomm://192.168.0.1'`. If false,
@@ -75,6 +77,7 @@ class mariadb::cluster (
   $status_password         = undef,
   $repo_version            = '5.5',
   $config_hash             = {},
+  $enabled                 = true,
   $single_cluster_peer     = true,
   $manage_status           = true,
   $manage_repo             = true,
