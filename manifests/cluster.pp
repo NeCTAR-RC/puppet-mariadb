@@ -127,10 +127,8 @@ class mariadb::cluster (
     require => Class['mariadb::server'],
   }
 
-  if $wsrep_sst_method == 'xtrabackup' and !defined(Package['percona-xtrabackup']) {
-    package { 'percona-xtrabackup':
-      ensure => installed
-    }
+  if $wsrep_sst_method == 'xtrabackup' {
+    ensure_packages(['percona-xtrabackup'])
   }
 
 }
