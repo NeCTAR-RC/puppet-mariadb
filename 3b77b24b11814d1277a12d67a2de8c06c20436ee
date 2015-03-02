@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa2559ec_27792d94",
+        "filename": "manifests/repo/redhat.pp",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000105
+      },
+      "writtenOn": "2015-03-02T07:22:46Z",
+      "side": 1,
+      "message": "This fact is not supported on all platforms, definitely not on CentOS 5. (should check 6).\nI see yum.mariadb.org has repos for Rhel 5-7 + fedora \u0026 opensuse.\nWhich distros does this module support?",
+      "range": {
+        "startLine": 5,
+        "startChar": 58,
+        "endLine": 5,
+        "endChar": 91
+      },
+      "revId": "3b77b24b11814d1277a12d67a2de8c06c20436ee",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
