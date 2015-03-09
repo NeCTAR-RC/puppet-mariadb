@@ -22,6 +22,30 @@
       "revId": "3b77b24b11814d1277a12d67a2de8c06c20436ee",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa2559ec_4a2c284b",
+        "filename": "manifests/repo/redhat.pp",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000082
+      },
+      "writtenOn": "2015-03-09T11:30:48Z",
+      "side": 1,
+      "message": "I\u0027m curious why we even care about RHEL support here? Is the plan to run the NSP mk2 on it?",
+      "parentUuid": "fa2559ec_27792d94",
+      "range": {
+        "startLine": 5,
+        "startChar": 58,
+        "endLine": 5,
+        "endChar": 91
+      },
+      "revId": "3b77b24b11814d1277a12d67a2de8c06c20436ee",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
