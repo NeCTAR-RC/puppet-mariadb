@@ -14,7 +14,7 @@ class mariadb::repo::debian {
   }
 
   apt::key { 'mariadb':
-    key         => '1BB943DB',
+    key         => '199369E5404BD5FC7D2FE43BCBCB082A1BB943DB',
     key_server  => 'pgp.mit.edu',
     key_options => $key_options,
   }
