@@ -44,9 +44,9 @@
 #
 class mariadb::server (
   $package_ensure          = $mariadb::params::server_package_ensure,
-  $package_names           = $mariadb::params::server_package_names,
+  $package_names           = $mariadb::params::cluster_package_names,
   $service_name            = $mariadb::params::service_name,
-  $service_provider        = $mariadb::params::service_provider,
+  $service_provider        = $mariadb::params::ruby_package_provider,
   $client_package_names    = $mariadb::params::client_package_names,
   $client_package_ensure   = $mariadb::params::client_package_ensure,
   $debiansysmaint_password = undef,
