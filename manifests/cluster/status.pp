@@ -5,11 +5,15 @@ class mariadb::cluster::status (
 
   file { '/usr/local/bin/clustercheck':
     content => template('mariadb/clustercheck.erb'),
+    owner   => 'root',
+    group   => 'root',
     mode    => '0755',
   }
 
   file { '/usr/local/bin/clustercheck-maintenance':
     source => 'puppet:///modules/mariadb/clustercheck-maintenance.sh',
+    owner  => 'root',
+    group  => 'root',
     mode   => '0755',
   }
 
