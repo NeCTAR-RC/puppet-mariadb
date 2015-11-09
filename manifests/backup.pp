@@ -45,8 +45,8 @@ class mariadb::backup (
     ensure  => $ensure,
     command => '/usr/local/sbin/mysqlbackup.sh',
     user    => 'root',
-    hour    => 23,
-    minute  => 5,
+    hour    => fqdn_rand(5),
+    minute  => fqdn_rand(59),
     require => File['mysqlbackup.sh'],
   }
 
