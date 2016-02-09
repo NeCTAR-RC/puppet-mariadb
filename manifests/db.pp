@@ -39,7 +39,7 @@ define mariadb::db (
   $charset     = 'utf8',
   $host        = 'localhost',
   $grant       = 'all',
-  $sql         = '',
+  $sql         = undef,
   $enforce_sql = false,
   $ensure      = 'present'
 ) {
