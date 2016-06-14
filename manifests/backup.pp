@@ -7,6 +7,7 @@
 #   [*backuppassword*] - The password of the mariadb backup user.
 #   [*backupdir*]      - The target directory of the mariadbdump.
 #   [*backupcompress*] - Boolean to compress backup with bzip2.
+#   [*backupdays*]     - Number of days of backups to keep.
 #
 # Actions:
 #   GRANT SELECT, RELOAD, LOCK TABLES ON *.* TO 'user'@'localhost'
@@ -21,12 +22,14 @@
 #     backuppassword => 'mypassword',
 #     backupdir      => '/tmp/backups',
 #     backupcompress => true,
+#     backupdays     => 30,
 #   }
 #
 class mariadb::backup (
   $backupuser,
   $backuppassword,
   $backupdir,
+  $backupdays = 30,
   $backupcompress = true,
   $ensure = 'present'
 ) {
