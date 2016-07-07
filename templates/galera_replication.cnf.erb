@@ -1,6 +1,11 @@
-# This file is managed by Puppet. DO NOT EDIT 
+# This file is managed by Puppet. DO NOT EDIT
 
+<%- if @repo_version == 5.5 -%>
 [mysqld]
+<%- else -%>
+[galera]
+wsrep_on=ON
+<%- end -%>
 wsrep_provider = <%= @wsrep_provider %>
 wsrep_cluster_address = 'gcomm://<%= @cluster_peer %>'
 wsrep_cluster_name = <%= @wsrep_cluster_name %>
