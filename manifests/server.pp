@@ -72,7 +72,7 @@ class mariadb::server (
 
   package { $package_names:
     ensure  => $package_ensure,
-    require => Package[$client_package_names] 
+    require => Package[$client_package_names]
   }
 
   file { '/var/log/mysql/error.log':
@@ -96,10 +96,11 @@ class mariadb::server (
     $piddir = dirname($mariadb::params::pidfile)
 
     file { $piddir:
-      ensure    => directory,
-      owner     => 'mysql',
-      group     => 'mysql',
-      mode      => '0755',
+      ensure  => directory,
+      owner   => 'mysql',
+      group   => 'root',
+      mode    => '0755',
+      require => Package[$package_names],
     }
 
     -> service { 'mariadb':
