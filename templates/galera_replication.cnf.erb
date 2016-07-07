@@ -1,6 +1,7 @@
 # This file is managed by Puppet. DO NOT EDIT 
 
-[mysqld]
+[galera]
+wsrep_on=ON
 wsrep_provider = <%= @wsrep_provider %>
 wsrep_cluster_address = 'gcomm://<%= @cluster_peer %>'
 wsrep_cluster_name = <%= @wsrep_cluster_name %>
