@@ -98,8 +98,9 @@ class mariadb::server (
     file { $piddir:
       ensure    => directory,
       owner     => 'mysql',
-      group     => 'mysql',
+      group     => 'root',
       mode      => '0755',
+      require   => Package[$package_names],
     }
 
     -> service { 'mariadb':
