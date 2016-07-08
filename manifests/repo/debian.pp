@@ -3,6 +3,7 @@ class mariadb::repo::debian {
 
   apt::source { 'mariadb':
     location => "http://mirror.aarnet.edu.au/pub/MariaDB/repo/${version}/ubuntu",
+    release  => $::lsbdistcodename,
     repos    => 'main',
   }
 
@@ -13,9 +14,15 @@ class mariadb::repo::debian {
     $key_options = false
   }
 
-  apt::key { 'mariadb':
-    key         => '199369E5404BD5FC7D2FE43BCBCB082A1BB943DB',
-    key_server  => 'pgp.mit.edu',
-    key_options => $key_options,
+  apt::key { 'mariadb-1':
+    id      => '199369E5404BD5FC7D2FE43BCBCB082A1BB943DB',
+    server  => 'pgp.mit.edu',
+    options => $key_options,
   }
+  apt::key { 'mariadb-2':
+    id      => '177F4010FE56CA3336300305F1656F24C74CD1D8',
+    server  => 'keyserver.ubuntu.com',
+    options => $key_options,
+  }
+
 }
