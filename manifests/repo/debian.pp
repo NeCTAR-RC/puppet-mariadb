@@ -1,16 +1,16 @@
 class mariadb::repo::debian {
   $version = $mariadb::repo_version
+  $mirror = $mariadb::mirror
 
   apt::source { 'mariadb':
-    location => "http://mirror.aarnet.edu.au/pub/MariaDB/repo/${version}/ubuntu",
+    location => "${mirror}/repo/${version}/${operatingsystem}",
     release  => $::lsbdistcodename,
     repos    => 'main',
   }
 
   if $::http_proxy and $::rfc1918_gateway == 'true' {
     $key_options = "http-proxy=${::http_proxy}"
-  }
-  else {
+  } else {
     $key_options = false
   }
 
@@ -19,6 +19,7 @@ class mariadb::repo::debian {
     server  => 'pgp.mit.edu',
     options => $key_options,
   }
+
   apt::key { 'mariadb-2':
     id      => '177F4010FE56CA3336300305F1656F24C74CD1D8',
     server  => 'keyserver.ubuntu.com',

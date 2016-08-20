@@ -29,13 +29,10 @@ class mariadb (
   $package_names  = $mariadb::params::client_package_names,
   $repo_version   = '5.5',
   $manage_repo    = true,
-) inherits mariadb::params {
-
+  $mirror         = 'http://mirror.aarnet.edu.au/pub/MariaDB',) inherits mariadb::params {
   if $manage_repo == true {
     # Set up repositories
-    class { $mariadb::params::repo_class:
-      stage => setup,
-    }
+    class { $mariadb::params::repo_class: stage => setup, }
   }
 
   # Packages
@@ -45,3 +42,4 @@ class mariadb (
   }
 
 }
+git@github.com:zoide/puppet-mariadb.git
