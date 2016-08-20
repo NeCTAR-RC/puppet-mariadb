@@ -42,4 +42,3 @@ class mariadb (
   }
 
 }
-git@github.com:zoide/puppet-mariadb.git
