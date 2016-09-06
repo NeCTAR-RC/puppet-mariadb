@@ -52,9 +52,10 @@ class mariadb::server (
   $debiansysmaint_password = undef,
   $config_hash             = {},
   $enabled                 = true,
-  $repo_version            = '5.5',
+  $repo_version            = $mariadb::params::repo_version,
   $manage_service          = true,
   $manage_repo             = true,
+  $mirror                  = $mariadb::params::default_mirror,
 ) inherits mariadb::params {
 
   class { 'mariadb':
@@ -62,6 +63,7 @@ class mariadb::server (
     package_ensure => $client_package_ensure,
     repo_version   => $repo_version,
     manage_repo    => $manage_repo,
+    mirror         => mirror,
   }
 
   Class['mariadb::server'] -> Class['mariadb::config']
