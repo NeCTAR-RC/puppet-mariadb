@@ -73,6 +73,7 @@ class mariadb::params {
       $ssl_key                = "${config_dir}//server-key.pem"
       $repo_class             = 'mariadb::repo::debian'
       $wsrep_provider         = '/usr/lib/galera/libgalera_smm.so'
+      $default_mirror = 'http://mirror.aarnet.edu.au/pub/MariaDB'
     }
 
     default: {
