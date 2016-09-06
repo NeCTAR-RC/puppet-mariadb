@@ -1,11 +1,13 @@
-class mariadb::repo::redhat {
-  $version = $mariadb::repo_version
+class mariadb::repo::redhat (
+   $repo_version = $mariadb::params::repo_version,
+   $mirror = $mariadb::params::default_mirror
+){
 
   yumrepo { 'mariadb':
-    baseurl         => "http://yum.mariadb.org/${version}/rhel\$releasever-amd64/",
+    baseurl         => "${mirror}/${repo_version}/rhel\$releasever-amd64/",
     enabled         => '1',
     gpgcheck        => '1',
-    gpgkey          => 'https://yum.mariadb.org/RPM-GPG-KEY-MariaDB',
+    gpgkey          => "${mirror}/RPM-GPG-KEY-MariaDB",
     descr           => 'MariaDB Yum Repository',
   }
 
