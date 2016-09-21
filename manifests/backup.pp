@@ -8,6 +8,7 @@
 #   [*backupdir*]      - The target directory of the mariadbdump.
 #   [*backupcompress*] - Boolean to compress backup with bzip2.
 #   [*backupdays*]     - Number of days of backups to keep.
+#   [*onefile*]        - Dump all DBs into one file?
 #
 # Actions:
 #   GRANT SELECT, RELOAD, LOCK TABLES ON *.* TO 'user'@'localhost'
@@ -31,6 +32,7 @@ class mariadb::backup (
   $backupdir,
   $backupdays = 30,
   $backupcompress = true,
+  $onefile = true,
   $ensure = 'present'
 ) {
 
