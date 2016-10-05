@@ -16,9 +16,19 @@ DIR=<%= @backupdir %>
 DAYS=<%= @backupdays %>
 
 ##### STOP CONFIG ####################################################
+CREDS="-u${USER} -p${PASS}" 
+MYSQLDUMP="mysqldump ${CREDS} --opt --flush-logs --single-transaction"
+DATE=`date +%Y%m%d-%H%M%S`
 PATH=/usr/bin:/usr/sbin:/bin:/sbin
 
-find $DIR -mtime +${DAYS} -exec rm -f {} \;
-mysqldump -u${USER} -p${PASS} --opt --flush-logs --single-transaction \
- --all-databases <% if @backupcompress %>| bzcat -zc <% end %>> ${DIR}/mysql_backup_`date +%Y%m%d-%H%M%S`.sql<% if @backupcompress %>.bz2<% end  %>
+find $DIR -type f -mtime +${DAYS} -delete
 
+<%- if @onefile -%>
+FNAME="${DIR}/mysql_backup_${DATE}.sql<% if @backupcompress %>.bz2<% end  %>"
+${MYSQLDUMP} --all-databases <% if @backupcompress %>| bzcat -zc <% end %>> ${FNAME}
+<%- else -%>
+for DB in $(echo "show databases" |mysql -N ${CREDS} |grep -v '^#'); do
+    FNAME="${DIR}/${DATE}-${DB}.sql<% if @backupcompress %>.bz2<% end  %>"      
+    ${MYSQLDUMP} --databases ${DB} <% if @backupcompress %>| bzcat -zc <% end %>>${FNAME}
+done
+<%- end -%>
