@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7adec928_2541d45a",
+        "filename": "templates/mysqlbackup.sh.erb",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000105
+      },
+      "writtenOn": "2016-10-12T04:20:12Z",
+      "side": 1,
+      "message": "maybe delete old files only if you have successfully performed a mysqldump?\n\nand if not doing it all in one file, only delete the files related to that database?",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 41
+      },
+      "revId": "86988dc705353b981a51b1b33d1df2367466d3da",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
