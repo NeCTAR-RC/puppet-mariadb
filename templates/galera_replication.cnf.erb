@@ -7,14 +7,14 @@
 wsrep_on=ON
 <%- end -%>
 wsrep_provider = <%= @wsrep_provider %>
-wsrep_node_name = <%= hostname %>
+wsrep_node_name = <%= @hostname %>
 wsrep_cluster_address = 'gcomm://<%= @cluster_peer %>'
 wsrep_cluster_name = <%= @wsrep_cluster_name %>
 wsrep_sst_auth = '<%= @wsrep_sst_auth %>'
 wsrep_sst_method = <%= @wsrep_sst_method %>
 wsrep_slave_threads = <%= @wsrep_slave_threads %>
-wsrep_node_address = <%= instance_variable_get("@ipaddress_#{cluster_iface}") %>
-wsrep_node_incoming_address = <%= instance_variable_get("@ipaddress_#{cluster_iface}") %>
+wsrep_node_address = <%= instance_variable_get("@ipaddress_#{@cluster_iface}") %>
+wsrep_node_incoming_address = <%= instance_variable_get("@ipaddress_#{@cluster_iface}") %>
 
 binlog_format = ROW
 default_storage_engine = InnoDB
