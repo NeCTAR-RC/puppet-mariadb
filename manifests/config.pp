@@ -11,6 +11,7 @@
 #   [*config_file*]       - my.cnf configuration file path.
 #   [*socket*]            - mariadb socket.
 #   [*datadir*]           - path to datadir.
+#   [*tmpdir*]            - path to tmpdir.
 #   [*ssl]                - enable ssl
 #   [*ssl_ca]             - path to ssl-ca
 #   [*ssl_cert]           - path to ssl-cert
@@ -45,6 +46,7 @@ class mariadb::config(
   $socket            = $mariadb::params::socket,
   $pidfile           = $mariadb::params::pidfile,
   $datadir           = $mariadb::params::datadir,
+  $tmpdir            = $mariadb::params::tmpdir,
   $ssl               = $mariadb::params::ssl,
   $ssl_ca            = $mariadb::params::ssl_ca,
   $ssl_cert          = $mariadb::params::ssl_cert,

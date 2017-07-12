@@ -24,6 +24,7 @@ class mariadb::params {
     'RedHat': {
       $basedir                = '/usr'
       $datadir                = '/var/lib/mysql'
+      $tmpdir                 = '/tmp'
       $service_name           = 'mysql'
       $client_package_names   = ['MariaDB-client']
       $client_package_ensure  = 'installed'
@@ -53,6 +54,7 @@ class mariadb::params {
     'Debian': {
       $basedir                = '/usr'
       $datadir                = '/var/lib/mysql'
+      $tmpdir                 = '/tmp'
       $service_name           = 'mysql'
       $client_package_names   = ['libmysqlclient18', 'mysql-common', 'mariadb-client']
       $client_package_ensure  = 'installed'
