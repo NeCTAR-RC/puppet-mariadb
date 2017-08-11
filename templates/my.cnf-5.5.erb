@@ -21,13 +21,15 @@ skip-external-locking
 bind-address    = <%= @bind_address %>
 <% end %>
 
+max_connections    = <%= @max_connections %>
+
 key_buffer         = 16M
 max_allowed_packet = 16M
 thread_stack       = 192K
 thread_cache_size  = 8
 myisam-recover     = BACKUP
-query_cache_limit  = 1M
-query_cache_size   = 16M
+query_cache_limit  = <%= @query_cache_limit %>
+query_cache_size   = <%= @query_cache_size %>
 <% if @log_error != 'syslog' -%>
 log_error          = <%= @log_error %>
 <% end -%>

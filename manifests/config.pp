@@ -55,7 +55,12 @@ class mariadb::config(
   $default_engine    = 'UNSET',
   $root_group        = $mariadb::params::root_group,
   $restart           = $mariadb::params::restart,
-  $purge_conf_dir    = false
+  $purge_conf_dir    = false,
+  $max_connections   = 151,
+  $tmp_table_size    = '32M',
+  $max_heap_table_size = '32M',
+  $query_cache_limit = '128k',
+  $query_cache_size  = '64M'
 ) inherits mariadb::params {
 
   File {
