@@ -115,7 +115,7 @@ class mariadb::cluster (
 
   # Find the next server in the list as a peer to sync with
   if $single_cluster_peer == true {
-    $cluster_peer = inline_template("<% (0..@cluster_servers.length).each do |i|; if @cluster_servers[i] == ipaddress_${cluster_iface}; if (i+1) == @cluster_servers.length %><%= @cluster_servers[0] %><% else %><%= @cluster_servers[i+1] %><% end; end; end %>")
+    $cluster_peer = inline_template("<% (0..@cluster_servers.length).each do |i|; if @cluster_servers[i] == @ipaddress_${cluster_iface}; if (i+1) == @cluster_servers.length %><%= @cluster_servers[0] %><% else %><%= @cluster_servers[i+1] %><% end; end; end %>")
   } else {
     $cluster_peer = join($cluster_servers,',')
   }
