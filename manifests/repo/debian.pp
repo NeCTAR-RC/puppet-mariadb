@@ -10,7 +10,7 @@ class mariadb::repo::debian (
     repos    => 'main',
   }
 
-  if $::http_proxy and str2bool($::rfc1918_gateway) {
+  if defined('$::http_proxy') and str2bool($::rfc1918_gateway) {
     $key_options = "http-proxy=${::http_proxy}"
   }
   else {
