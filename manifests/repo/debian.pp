@@ -19,7 +19,7 @@ class mariadb::repo::debian (
 
   apt::key { 'mariadb-1':
     id      => '199369E5404BD5FC7D2FE43BCBCB082A1BB943DB',
-    server  => 'pgp.mit.edu',
+    server  => 'pool.sks-keyservers.net',
     options => $key_options,
   }
   apt::key { 'mariadb-2':
