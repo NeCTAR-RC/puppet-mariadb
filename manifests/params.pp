@@ -49,6 +49,7 @@ class mariadb::params {
       $repo_class             = 'mariadb::repo::redhat'
       $wsrep_provider         = '/usr/lib64/galera/libgalera_smm.so'
       $default_mirror         = '"http://yum.mariadb.org'
+      $backup_package_name    = 'MariaDB-backup'
     }
 
     'Debian': {
@@ -78,6 +79,7 @@ class mariadb::params {
       $repo_class             = 'mariadb::repo::debian'
       $wsrep_provider         = '/usr/lib/galera/libgalera_smm.so'
       $default_mirror         = 'http://mirror.aarnet.edu.au/pub/MariaDB'
+      $backup_package_name    = 'mariadb-backup-10.1'
     }
 
     default: {
