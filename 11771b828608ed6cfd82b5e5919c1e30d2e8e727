@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c09db45e_859e6433",
+        "filename": "manifests/params.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-10-22T02:47:53Z",
+      "side": 1,
+      "message": "this won\u0027t work with sites that are still on version 5.5 so maybe just leave this out and it\u0027s up to them to set it in hiera",
+      "range": {
+        "startLine": 59,
+        "startChar": 86,
+        "endLine": 59,
+        "endChar": 107
+      },
+      "revId": "11771b828608ed6cfd82b5e5919c1e30d2e8e727",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5d844ac_1ed8743e",
+        "filename": "templates/mysqlbackup.sh.erb",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-10-22T02:47:53Z",
+      "side": 1,
+      "message": "I\u0027m wondering if instead of changing the current one we make a new script so you could choose mysqldump or mariabackup",
+      "range": {
+        "startLine": 19,
+        "startChar": 5,
+        "endLine": 20,
+        "endChar": 27
+      },
+      "revId": "11771b828608ed6cfd82b5e5919c1e30d2e8e727",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
