@@ -9,6 +9,8 @@
 #   [*backupcompress*] - Boolean to compress backup with bzip2.
 #   [*backupdays*]     - Number of days of backups to keep.
 #   [*onefile*]        - Dump all DBs into one file?
+#   [*ensure*]         - Specify if database backup is present or absent.
+#   [*backupmethod*]   - Backup methods to select: mysqldump or mariabackup
 #
 # Actions:
 #   GRANT SELECT, RELOAD, LOCK TABLES ON *.* TO 'user'@'localhost'
@@ -33,7 +35,8 @@ class mariadb::backup (
   $backupdays = 30,
   $backupcompress = true,
   $onefile = true,
-  $ensure = 'present'
+  $ensure = 'present',
+  $backupmethod = 'mysqldump'
 ) {
 
   database_user { "${backupuser}@localhost":
@@ -47,22 +50,43 @@ class mariadb::backup (
     require    => Database_user["${backupuser}@localhost"],
   }
 
+  if $backupmethod == 'mariabackup' {
+    case $::osfamily {
+      'Debian': {
+        package { 'mariadb-backup-10.1':
+          ensure => 'present',
+        }
+      }
+
+      'RedHat': {
+        package { 'MariaDB-backup':
+          ensure => 'present',
+        }
+      }
+
+      default: { fail('Only support osfamily Debian and RedHat') }
+    }
+    $backupscript = 'mariabackup.sh'
+  } else {
+    $backupscript = 'mysqlbackup.sh'
+  }
+
   cron { 'mysql-backup':
     ensure  => $ensure,
-    command => '/usr/local/sbin/mysqlbackup.sh',
+    command => "/usr/local/sbin/${backupscript}",
     user    => 'root',
     hour    => fqdn_rand(5),
     minute  => fqdn_rand(59),
-    require => File['mysqlbackup.sh'],
+    require => File[$backupscript],
   }
 
-  file { 'mysqlbackup.sh':
+  file { $backupscript:
     ensure  => $ensure,
-    path    => '/usr/local/sbin/mysqlbackup.sh',
+    path    => "/usr/local/sbin/${backupscript}",
     mode    => '0700',
     owner   => 'root',
     group   => 'root',
-    content => template('mariadb/mysqlbackup.sh.erb'),
+    content => template("mariadb/${backupscript}.erb"),
   }
 
   file { 'mysqlbackupdir':
