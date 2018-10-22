@@ -26,7 +26,7 @@ class mariadb::params {
       $datadir                = '/var/lib/mysql'
       $tmpdir                 = '/tmp'
       $service_name           = 'mysql'
-      $client_package_names   = ['MariaDB-client']
+      $client_package_names   = ['MariaDB-client','MariaDB-backup']
       $client_package_ensure  = 'installed'
       $server_package_names   = ['MariaDB-server']
       $cluster_package_names  = ['MariaDB-Galera-server']
@@ -56,7 +56,7 @@ class mariadb::params {
       $datadir                = '/var/lib/mysql'
       $tmpdir                 = '/tmp'
       $service_name           = 'mysql'
-      $client_package_names   = ['libmysqlclient18', 'mysql-common', 'mariadb-client']
+      $client_package_names   = ['libmysqlclient18', 'mysql-common', 'mariadb-client','mariadb-backup-10.1']
       $client_package_ensure  = 'installed'
       $server_package_names   = ['mariadb-server']
       $cluster_package_names  = ['mariadb-galera-server']
