@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9f36457_5647057d",
+        "filename": "lint.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-10-24T00:00:04Z",
+      "side": 1,
+      "message": "think this file was added by accident :-)",
+      "revId": "c90d67385f87f756b49a00b80c1eceec00738543",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba4a1efc_db11c80c",
+        "filename": "manifests/backup.pp",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-10-24T00:00:04Z",
+      "side": 1,
+      "message": "I think the determination of the package name should be in the params file under a new variable",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 7
+      },
+      "revId": "c90d67385f87f756b49a00b80c1eceec00738543",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
