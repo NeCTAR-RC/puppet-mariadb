@@ -143,4 +143,11 @@ class mariadb::config(
     mode    => '0644',
   }
 
+  $debiansysmaint_password = $::mariadb::server::debiansysmaint_password
+  if $debiansysmaint_password != undef {
+    file { '/etc/mysql/debian.cnf':
+      content => template('mariadb/debian.cnf.erb'),
+    }
+  }
+
 }
