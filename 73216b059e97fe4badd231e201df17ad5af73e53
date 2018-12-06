@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ae86391_fc8fdeab",
+        "filename": "manifests/backup.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2018-12-06T23:22:30Z",
+      "side": 1,
+      "message": "Can it just use this existing field to know whether to put them all in one backup file or not?",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "73216b059e97fe4badd231e201df17ad5af73e53",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
