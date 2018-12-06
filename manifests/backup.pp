@@ -10,7 +10,9 @@
 #   [*backupdays*]     - Number of days of backups to keep.
 #   [*onefile*]        - Dump all DBs into one file?
 #   [*ensure*]         - Specify if database backup is present or absent.
-#   [*backupmethod*]   - Backup methods to select: mysqldump or mariabackup
+#   [*backupmethod*]   - Backup methods to select: mysqldump or mariabackup.
+#   [*include*]        - Include the databases to be backed up.
+#   [*exclude*]        - Exclude the databases to be backed up.
 #
 # Actions:
 #   GRANT SELECT, RELOAD, LOCK TABLES ON *.* TO 'user'@'localhost'
@@ -36,7 +38,9 @@ class mariadb::backup (
   $backupcompress = true,
   $onefile = true,
   $ensure = 'present',
-  $backupmethod = 'mysqldump'
+  $backupmethod = 'mysqldump',
+  $include = [],
+  $exclude = []
 ) {
 
   database_user { "${backupuser}@localhost":

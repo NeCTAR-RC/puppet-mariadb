@@ -19,8 +19,15 @@ find $DIR -type f -mtime +${DAYS} -delete
 ulimit -n 4096
 
 <%- if @onefile -%>
+  <%- if ! @include.empty? -%>
+MARIABACKUP="${MARIABACKUP} --databases=\"<%= @include.join(' ') %>\""
+  <%- end -%>
+  <%- if ! @exclude.empty? -%>
+MARIABACKUP="${MARIABACKUP} --databases-exclude=\"<%= @exclude.join(' ') %>\""
+  <%- end -%>
+
 FNAME="${DIR}/maria_backup_${DATE}.sql<% if @backupcompress %>.bz2<% end  %>"
-${MARIABACKUP} <% if @backupcompress %>| bzcat -zc <% end %>> ${FNAME}
+eval "${MARIABACKUP} <% if @backupcompress %>| bzcat -zc <% end %>> ${FNAME}"
 <%- else -%>
 for DB in $(echo "show databases" |mysql -N ${CREDS} |grep -v '^#'); do
     FNAME="${DIR}/${DATE}-${DB}.sql<% if @backupcompress %>.bz2<% end  %>"
