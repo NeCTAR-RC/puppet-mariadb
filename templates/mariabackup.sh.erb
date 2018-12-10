@@ -11,19 +11,22 @@ DAYS=<%= @backupdays %>
 
 ##### STOP CONFIG ####################################################
 CREDS="-u${USER} -p${PASS}"
-MARIABACKUP="mariabackup ${CREDS} --lock-ddl-per-table --backup --stream=xbstream"
+MARIABACKUP="mariabackup ${CREDS} --lock-ddl-per-table --backup --stream=xbstream --open-files-limit=4096"
 DATE=`date +%Y%m%d-%H%M%S`
 PATH=/usr/bin:/usr/sbin:/bin:/sbin
 
 find $DIR -type f -mtime +${DAYS} -delete
-ulimit -n 4096
 
 <%- if @onefile -%>
 FNAME="${DIR}/maria_backup_${DATE}.sql<% if @backupcompress %>.bz2<% end  %>"
-${MARIABACKUP} <% if @backupcompress %>| bzcat -zc <% end %>> ${FNAME}
+LOGNAME="$(basename ${FNAME}).log"
+{ ${MARIABACKUP} <% if @backupcompress %>| bzcat -zc <% end %>> ${FNAME}.inprogress; } 2> ${LOGNAME}
+mv ${FNAME}.inprogress ${FNAME}
 <%- else -%>
 for DB in $(echo "show databases" |mysql -N ${CREDS} |grep -v '^#'); do
     FNAME="${DIR}/${DATE}-${DB}.sql<% if @backupcompress %>.bz2<% end  %>"
-    ${MARIABACKUP} --databases ${DB} <% if @backupcompress %>| bzcat -zc <% end %>>${FNAME}
+    LOGNAME="$(basename ${FNAME}).log"
+    { ${MARIABACKUP} --databases ${DB} <% if @backupcompress %>| bzcat -zc <% end %>>${FNAME}.inprogress; } 2> ${LOGNAME}
+    mv ${FNAME}.inprogress ${FNAME}
 done
 <%- end -%>
