@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e33a8d16_7ff1f6c7",
+        "filename": "templates/mariabackup.sh.erb",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2019-01-17T00:44:36Z",
+      "side": 1,
+      "message": "does this work if the mysql isn\u0027t galera?",
+      "range": {
+        "startLine": 14,
+        "startChar": 107,
+        "endLine": 14,
+        "endChar": 119
+      },
+      "revId": "7b8c819d55d71a683ed9b44ed0b8af5e8df134d8",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
