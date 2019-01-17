@@ -46,7 +46,7 @@ class mariadb::backup (
   }
 
   database_grant { "${backupuser}@localhost":
-    privileges => [ 'Select_priv', 'Reload_priv', 'Lock_tables_priv', 'Show_view_priv' ],
+    privileges => [ 'Select_priv', 'Reload_priv', 'Lock_tables_priv', 'Show_view_priv', 'Repl_client_priv' ],
     require    => Database_user["${backupuser}@localhost"],
   }
 
