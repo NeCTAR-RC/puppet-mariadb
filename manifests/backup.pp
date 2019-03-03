@@ -37,6 +37,7 @@ class mariadb::backup (
   $onefile = true,
   $ensure = 'present',
   $backupmethod = 'mysqldump'
+  $databases_exclude = ''
 ) {
 
   database_user { "${backupuser}@localhost":
