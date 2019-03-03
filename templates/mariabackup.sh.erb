@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # https://mariadb.com/kb/en/library/using-encryption-and-compression-tools-with-mariabackup/
 #
@@ -8,10 +8,13 @@ USER=<%= @backupuser %>
 PASS=<%= @backuppassword %>
 DIR=<%= @backupdir %>
 DAYS=<%= @backupdays %>
+DATABASES_EXCLUDE="<%= @databases_exclude %>"
 
 ##### STOP CONFIG ####################################################
-CREDS="-u${USER} -p${PASS}"
-MARIABACKUP="mariabackup ${CREDS} --lock-ddl-per-table --backup --stream=xbstream --open-files-limit=4096 --galera-info"
+MARIABACKUP=("mariabackup")
+MARIABACKUP+=("-u${USER}" "-p${PASS}")
+MARIABACKUP+=("--databases-exclude" "${DATABASES_EXCLUDE}")
+MARIABACKUP+=("--lock-ddl-per-table" "--backup" "--stream=xbstream" "--open-files-limit=4096" "--galera-info")
 DATE=`date +%Y%m%d-%H%M%S`
 PATH=/usr/bin:/usr/sbin:/bin:/sbin
 
@@ -20,13 +23,13 @@ find $DIR -type f -mtime +${DAYS} -delete
 <%- if @onefile -%>
 FNAME="${DIR}/maria_backup_${DATE}.sql<% if @backupcompress %>.bz2<% end  %>"
 LOGNAME="${DIR}/$(basename ${FNAME}).log"
-{ ${MARIABACKUP} <% if @backupcompress %>| bzcat -zc <% end %>> ${FNAME}.inprogress; } 2> ${LOGNAME}
+{ "${MARIABACKUP[@]}" <% if @backupcompress %>| bzcat -zc <% end %>> ${FNAME}.inprogress; } 2> ${LOGNAME}
 mv ${FNAME}.inprogress ${FNAME}
 <%- else -%>
 for DB in $(echo "show databases" |mysql -N ${CREDS} |grep -v '^#'); do
     FNAME="${DIR}/${DATE}-${DB}.sql<% if @backupcompress %>.bz2<% end  %>"
     LOGNAME="${DIR}/$(basename ${FNAME}).log"
-    { ${MARIABACKUP} --databases ${DB} <% if @backupcompress %>| bzcat -zc <% end %>>${FNAME}.inprogress; } 2> ${LOGNAME}
+    { "${MARIABACKUP[@]}" --databases ${DB} <% if @backupcompress %>| bzcat -zc <% end %>>${FNAME}.inprogress; } 2> ${LOGNAME}
     mv ${FNAME}.inprogress ${FNAME}
 done
 <%- end -%>

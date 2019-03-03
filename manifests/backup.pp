@@ -3,14 +3,16 @@
 # This module handles ...
 #
 # Parameters:
-#   [*backupuser*]     - The name of the mariadb backup user.
-#   [*backuppassword*] - The password of the mariadb backup user.
-#   [*backupdir*]      - The target directory of the mariadbdump.
-#   [*backupcompress*] - Boolean to compress backup with bzip2.
-#   [*backupdays*]     - Number of days of backups to keep.
-#   [*onefile*]        - Dump all DBs into one file?
-#   [*ensure*]         - Specify if database backup is present or absent.
-#   [*backupmethod*]   - Backup methods to select: mysqldump or mariabackup
+#   [*backupuser*]        - The name of the mariadb backup user.
+#   [*backuppassword*]    - The password of the mariadb backup user.
+#   [*backupdir*]         - The target directory of the mariadbdump.
+#   [*backupcompress*]    - Boolean to compress backup with bzip2.
+#   [*backupdays*]        - Number of days of backups to keep.
+#   [*onefile*]           - Dump all DBs into one file?
+#   [*ensure*]            - Specify if database backup is present or absent.
+#   [*backupmethod*]      - Backup methods to select: mysqldump or mariabackup
+#   [*databases_exclude*] - Databases to exclude from backups. Space separated.
+#                           Only valid for mariabackup method
 #
 # Actions:
 #   GRANT SELECT, RELOAD, LOCK TABLES ON *.* TO 'user'@'localhost'
@@ -36,8 +38,19 @@ class mariadb::backup (
   $backupcompress = true,
   $onefile = true,
   $ensure = 'present',
-  $backupmethod = 'mysqldump'
+  $backupmethod = 'mysqldump',
+  $databases_exclude = '',
 ) {
+
+  # sanity checks
+  if $databases_exclude != '' {
+    if $backupmethod != 'mariabackup' {
+      fail("Error: databases_exclude option only works when backupmethod = mariabackup")
+    }
+    if $onefile != true {
+      fail("Error: databases_exclude option only works when onefile = true")
+    }
+  }
 
   database_user { "${backupuser}@localhost":
     ensure        => $ensure,
