@@ -8,10 +8,11 @@ USER=<%= @backupuser %>
 PASS=<%= @backuppassword %>
 DIR=<%= @backupdir %>
 DAYS=<%= @backupdays %>
+DATABASES_EXCLUDE=<%= @databases_exclude %>
 
 ##### STOP CONFIG ####################################################
 CREDS="-u${USER} -p${PASS}"
-MARIABACKUP="mariabackup ${CREDS} --lock-ddl-per-table --backup --stream=xbstream --open-files-limit=4096 --galera-info"
+MARIABACKUP="mariabackup ${CREDS} --databases-exclude='${DATABASES_EXCLUDE}' --lock-ddl-per-table --backup --stream=xbstream --open-files-limit=4096 --galera-info"
 DATE=`date +%Y%m%d-%H%M%S`
 PATH=/usr/bin:/usr/sbin:/bin:/sbin
 
