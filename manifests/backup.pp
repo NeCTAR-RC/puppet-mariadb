@@ -51,9 +51,10 @@ class mariadb::backup (
   }
 
   if $backupmethod == 'mariabackup' {
-    package { $::mariadb::params::backup_package_name:
-      ensure => 'present',
-    }
+    #package { $::mariadb::params::backup_package_name:
+    #  ensure => 'present',
+    #}
+	ensure_packages(['mariadb-backup'])
     $backupscript = 'mariabackup.sh'
   } else {
     $backupscript = 'mysqlbackup.sh'
