@@ -46,14 +46,17 @@ class mariadb::backup (
   }
 
   database_grant { "${backupuser}@localhost":
-    privileges => [ 'Select_priv', 'Reload_priv', 'Lock_tables_priv', 'Show_view_priv', 'Repl_client_priv' ],
+    privileges => [ 'Select_priv', 'Reload_priv', 'Lock_tables_priv',
+                    'Show_view_priv', 'Repl_client_priv',
+                    'Process_priv', 'Super_priv' ],
     require    => Database_user["${backupuser}@localhost"],
   }
 
   if $backupmethod == 'mariabackup' {
-    package { $::mariadb::params::backup_package_name:
-      ensure => 'present',
-    }
+    #package { $::mariadb::params::backup_package_name:
+    #  ensure => 'present',
+    #}
+    ensure_packages(['mariadb-backup'])
     $backupscript = 'mariabackup.sh'
   } else {
     $backupscript = 'mysqlbackup.sh'
