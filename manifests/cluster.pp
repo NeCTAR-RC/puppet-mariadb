@@ -131,4 +131,8 @@ class mariadb::cluster (
     ensure_packages(['percona-xtrabackup'])
   }
 
+  if $wsrep_sst_method == 'mariabackup' {
+    ensure_packages(['mariadb-backup'])
+  }
+
 }
