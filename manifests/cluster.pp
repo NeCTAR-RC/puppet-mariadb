@@ -69,6 +69,7 @@ class mariadb::cluster (
   $status_user             = 'clusterstatus',
   $wsrep_sst_method        = 'mysqldump',
   $wsrep_slave_threads     = $mariadb::params::slave_threads,
+  $wsrep_package_name      = $mariadb::params::backup_package_name,
   $package_names           = $mariadb::params::cluster_package_names,
   $package_ensure          = $mariadb::params::cluster_package_ensure,
   $galera_name             = $mariadb::params::galera_package_name,
@@ -129,6 +130,10 @@ class mariadb::cluster (
 
   if $wsrep_sst_method == 'xtrabackup' or $wsrep_sst_method == 'xtrabackup-v2' {
     ensure_packages(['percona-xtrabackup'])
+  }
+
+  if $wsrep_sst_method == 'mariabackup' {
+    ensure_packages([$wsrep_package_name])
   }
 
 }
