@@ -75,7 +75,7 @@ class mariadb::cluster (
   $galera_ensure           = $mariadb::params::cluster_package_ensure,
   $debiansysmaint_password = undef,
   $status_password         = undef,
-  $repo_version            = '5.5',
+  $repo_version            = $mariadb::params::repo_version,
   $config_hash             = {},
   $enabled                 = true,
   $single_cluster_peer     = true,
