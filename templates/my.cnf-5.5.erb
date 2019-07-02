@@ -21,13 +21,16 @@ skip-external-locking
 bind-address    = <%= @bind_address %>
 <% end %>
 
-key_buffer         = 16M
+key_buffer         = 4096M
 max_allowed_packet = 16M
 thread_stack       = 192K
 thread_cache_size  = 8
 myisam-recover     = BACKUP
-query_cache_limit  = 1M
-query_cache_size   = 16M
+query_cache_limit  = 16M
+query_cache_size   = 4096M
+innodb_buffer_pool_size = 4096M
+#wait_timeout       = 60
+
 <% if @log_error != 'syslog' -%>
 log_error          = <%= @log_error %>
 <% end -%>
@@ -41,6 +44,9 @@ ssl-ca    = <%= @ssl_ca %>
 ssl-cert  = <%= @ssl_cert %>
 ssl-key   = <%= @ssl_key %>
 <% end %>
+max_connections   = 1024
+tmp_table_size    = 512M
+table_cache       = 512
 
 [mysqldump]
 quick
