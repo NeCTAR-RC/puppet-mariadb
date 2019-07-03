@@ -1,11 +1,10 @@
-class mariadb::repo::debian (
-  $repo_version = $mariadb::params::repo_version,
-  $mirror = $mariadb::params::default_mirror
-) {
+class mariadb::repo::debian {
   $os = downcase($::operatingsystem)
 
+  include ::mariadb
+
   apt::source { 'mariadb':
-    location => "${mirror}/repo/${repo_version}/${os}",
+    location => "${::mariadb::mirror}/repo/${::mariadb::repo_version}/${os}",
     release  => $::lsbdistcodename,
     repos    => 'main',
   }
