@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c4d029a_26f55dee",
+        "filename": "manifests/server.pp",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2019-07-03T06:16:24Z",
+      "side": 1,
+      "message": "remove?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 81
+      },
+      "revId": "266923cc4a5e4860f517bcf576e4a2b9241ee9ea",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
