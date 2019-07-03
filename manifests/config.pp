@@ -139,7 +139,7 @@ class mariadb::config(
     purge   => $purge_conf_dir,
   }
   file { $config_file:
-    content => template("mariadb/my.cnf-${::mariadb::repo_version}.erb"),
+    content => template("mariadb/my.cnf-${::mariadb::version}.erb"),
     mode    => '0644',
   }
 
