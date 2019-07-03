@@ -18,7 +18,7 @@ class mariadb::params {
   $ssl                 = false
   $restart             = true
   $slave_threads       = $::processorcount * 2
-  $repo_version        = '5.5'
+  $version             = '5.5'
 
   case $::osfamily {
     'RedHat': {

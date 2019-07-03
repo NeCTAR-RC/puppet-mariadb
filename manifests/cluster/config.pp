@@ -6,6 +6,9 @@ class mariadb::cluster::config (
   $config_dir           = $mariadb::params::config_dir,
 ) inherits mariadb::params {
 
+  include ::mariadb
+  $version = $::mariadb::version
+
   file { "${config_dir}/galera_replication.cnf":
     content => template('mariadb/galera_replication.cnf.erb'),
   }

@@ -37,8 +37,9 @@ class mariadb::backup (
   $onefile = true,
   $ensure = 'present',
   $backupmethod = 'mysqldump',
-  $backup_package = $mariadb::params::backup_package_name,
 ) {
+
+  include ::mariadb
 
   database_user { "${backupuser}@localhost":
     ensure        => $ensure,
@@ -54,7 +55,7 @@ class mariadb::backup (
   }
 
   if $backupmethod == 'mariabackup' {
-    ensure_packages([$backup_package])
+    ensure_packages([$::mariadb::backup_package_name])
     $backupscript = 'mariabackup.sh'
   } else {
     $backupscript = 'mysqlbackup.sh'
