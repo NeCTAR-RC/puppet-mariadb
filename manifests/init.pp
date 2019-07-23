@@ -40,7 +40,7 @@ class mariadb (
       $backup_package_name   = $mariadb::params::backup_package_name
     }
     'Debian': {
-      case $::version {
+      case $version {
         '5.5': {
           $server_package_names  = $mariadb::params::server_package_names
           $cluster_package_names = $mariadb::params::cluster_package_names
