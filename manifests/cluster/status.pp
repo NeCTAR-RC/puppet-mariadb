@@ -33,6 +33,7 @@ class mariadb::cluster::status (
     flags      => 'REUSE',
     instances  => 500,
     per_source => 10,
+    cps        => '100 1',
   }
 
   database_user { "${status_user}@localhost":
