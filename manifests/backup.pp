@@ -79,7 +79,11 @@ class mariadb::backup (
     content => template("mariadb/${backupscript}.erb"),
   }
 
-  file { 'mysqlbackupdir':
+  exec { "Create ${backupdir}":
+    creates => $backupdir,
+    command => "mkdir -p ${backupdir}",
+    path    => $::path
+  } -> file { 'mysqlbackupdir':
     ensure => 'directory',
     path   => $backupdir,
     mode   => '0700',
