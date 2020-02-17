@@ -39,6 +39,7 @@ class mariadb::cluster::status (
   database_user { "${status_user}@localhost":
     ensure        => present,
     password_hash => mysql_password($status_password),
+    require       => Class['mariadb::server'],
   }
 
   database_grant { "${status_user}@localhost":
