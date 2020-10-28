@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27c89da2_aaadfe6d",
+        "filename": "manifests/repo/debian.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-10-28T23:53:18Z",
+      "side": 1,
+      "message": "I think this should be 1001 https://linux.die.net/man/5/apt_preferences",
+      "range": {
+        "startLine": 9,
+        "startChar": 18,
+        "endLine": 9,
+        "endChar": 22
+      },
+      "revId": "da33741f0bccfead52113ee3a7ac11c3efb6414f",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
