@@ -55,6 +55,20 @@ class mariadb (
           $galera_name           = 'galera-3'
           $backup_package_name   = 'mariadb-backup-10.1'
         }
+        '10.4': {
+          $server_package_names  = ['mariadb-server']
+          $cluster_package_names = $server_package_names
+          $client_package_names  = ['mariadb-client']
+          $galera_name           = 'galera-4'
+          $backup_package_name   = 'mariadb-backup'
+        }
+        '10.5': {
+          $server_package_names  = ['mariadb-server']
+          $cluster_package_names = $server_package_names
+          $client_package_names  = ['mariadb-client']
+          $galera_name           = 'galera-4'
+          $backup_package_name   = 'mariadb-backup'
+        }
         default: {
           $server_package_names  = ['mariadb-server']
           $cluster_package_names = $server_package_names
