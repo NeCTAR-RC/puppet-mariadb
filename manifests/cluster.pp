@@ -71,6 +71,14 @@ class mariadb::cluster (
     ensure => $galera_ensure,
   }
 
+  if $wsrep_sst_method == 'xtrabackup' or $wsrep_sst_method == 'xtrabackup-v2' {
+    ensure_packages(['percona-xtrabackup'])
+  }
+
+  if $wsrep_sst_method == 'mariabackup' {
+    ensure_packages([$::mariadb::backup_package_name])
+  }
+
   class { 'mariadb::server':
     package_ensure          => $package_ensure,
     package_names           => $::mariadb::cluster_package_names,
@@ -107,14 +115,6 @@ class mariadb::cluster (
   file { "${mariadb::params::config_dir}/galera_replication.cnf":
     content => template('mariadb/galera_replication.cnf.erb'),
     require => Class['mariadb::server'],
-  }
-
-  if $wsrep_sst_method == 'xtrabackup' or $wsrep_sst_method == 'xtrabackup-v2' {
-    ensure_packages(['percona-xtrabackup'])
-  }
-
-  if $wsrep_sst_method == 'mariabackup' {
-    ensure_packages([$::mariadb::backup_package_name])
   }
 
 }
