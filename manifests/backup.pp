@@ -47,10 +47,16 @@ class mariadb::backup (
     require       => Class['mariadb::server'],
   }
 
-  database_grant { "${backupuser}@localhost":
-    privileges => [ 'Select_priv', 'Reload_priv', 'Lock_tables_priv',
-                    'Show_view_priv', 'Repl_client_priv',
-                    'Process_priv', 'Super_priv' ],
+  $version = hiera('mariadb::version')
+  if $version >= '10.5' {
+    $grant = [ 'SELECT', 'RELOAD', 'LOCK TABLES', 'SHOW VIEW', 'BINLOG MONITOR', 'PROCESS', 'SUPER' ]
+  } else {
+    $grant = [ 'SELECT', 'RELOAD', 'LOCK TABLES', 'SHOW VIEW', 'REPLICATION CLIENT', 'PROCESS', 'SUPER' ]
+  }
+  mysql_grant { "${backupuser}@localhost/*.*":
+    user       => "${backupuser}@localhost",
+    table      => '*.*',
+    privileges => $grant,
     require    => Database_user["${backupuser}@localhost"],
   }
 
