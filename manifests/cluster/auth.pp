@@ -9,7 +9,9 @@ class mariadb::cluster::auth (
     require       => Class['mariadb::server'],
   }
 
-  database_grant { "${wsrep_sst_user}@%":
+  mysql_grant { "${wsrep_sst_user}@%/*.*":
+    user       => "${wsrep_sst_user}@%",
+    table      => '*.*',
     privileges => [ 'all' ],
     require    => Database_user["${wsrep_sst_user}@%"],
   }

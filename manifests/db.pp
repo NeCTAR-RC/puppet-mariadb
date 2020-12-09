@@ -57,7 +57,9 @@ define mariadb::db (
   }
 
   if $ensure == 'present' {
-    database_grant { "${user}@${host}/${name}":
+    mysql_grant { "${user}@${host}/${name}.*":
+      user       => "${user}@${host}",
+      table      => "${name}.*",
       privileges => $grant,
       require    => Database_user["${user}@${host}"],
     }
