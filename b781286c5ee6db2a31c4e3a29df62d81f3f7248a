@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95ada54e_e0830f09",
+        "filename": "manifests/backup.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2020-12-09T21:51:49Z",
+      "side": 1,
+      "message": "I\u0027m assuming mysql_grant works with mysql \u003c 10.5 ?",
+      "range": {
+        "startLine": 51,
+        "startChar": 5,
+        "endLine": 51,
+        "endChar": 23
+      },
+      "revId": "b781286c5ee6db2a31c4e3a29df62d81f3f7248a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a6ce338_d1100f5d",
+        "filename": "manifests/backup.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2020-12-09T21:51:49Z",
+      "side": 1,
+      "message": "it might be a good idea to have metadata.json keep track of this dependency",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 13
+      },
+      "revId": "b781286c5ee6db2a31c4e3a29df62d81f3f7248a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
