@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "55d1bcbe_20b90f45",
+        "filename": "manifests/backup.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-12-09T21:58:23Z",
+      "side": 1,
+      "message": "I don\u0027t think this string comparison will do what you want here? Need to use version_cmp or whatever that function is",
+      "range": {
+        "startLine": 51,
+        "startChar": 5,
+        "endLine": 51,
+        "endChar": 24
+      },
+      "revId": "b781286c5ee6db2a31c4e3a29df62d81f3f7248a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1a6ce338_d1100f5d",
         "filename": "manifests/backup.pp",
         "patchSetId": 1
@@ -36,6 +59,30 @@
       "writtenOn": "2020-12-09T21:51:49Z",
       "side": 1,
       "message": "it might be a good idea to have metadata.json keep track of this dependency",
+      "range": {
+        "startLine": 56,
+        "startChar": 2,
+        "endLine": 56,
+        "endChar": 13
+      },
+      "revId": "b781286c5ee6db2a31c4e3a29df62d81f3f7248a",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6577a802_939e6014",
+        "filename": "manifests/backup.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-12-09T21:58:23Z",
+      "side": 1,
+      "message": "See https://review.rc.nectar.org.au/c/NeCTAR-RC/puppet-mariadb/+/26902",
+      "parentUuid": "1a6ce338_d1100f5d",
       "range": {
         "startLine": 56,
         "startChar": 2,
