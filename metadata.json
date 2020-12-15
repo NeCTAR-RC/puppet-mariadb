@@ -16,7 +16,7 @@
         {
             "name": "puppetlabs/apt",
             "version_requirement": ">=6.0.0 <7.0.0"
-        },
+        }
     ],
     "description": "Installs and configures MariaDB",
     "issues_url": "https://github.com/NeCTAR-RC/puppet-mariadb/issues",
@@ -45,7 +45,7 @@
             "operatingsystem": "Ubuntu",
             "operatingsystemrelease": [
                 "18.04",
-                "20.04",
+                "20.04"
             ]
         }
     ],
