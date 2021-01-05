@@ -21,24 +21,12 @@
 #     The method to use for replication.
 #   [*wsrep_slave_threads*]
 #     Number of threads to use for replication.
-#   [*package_names*]
-#     Array of names of the mariadb server packages.
 #   [*package_ensure*]
 #     Ensure value for the server packages. Set to `present` or a version number.
-#     If setting a version number see note below on `repo_version`. Ex.
-#     '5.5.37'.
-#   [*galera_name*]
-#     The galera package name
 #   [*galera_ensure*]
 #     The galera package ensure value.
 #   [*status_password*]
 #     The password for the status user.
-#   [*repo_version*]
-#     Sets the version string for the repo URL. For Debian-based systems a
-#     'major.minor' version is expected. Ex. '5.5'. Set a more specific
-#     version using `package_ensure` parameter. For RedHat-based systems a
-#     full version is required. Ex. '5.5.37'. This is due to the way the
-#     yum package repo is configured.
 #   [*config_hash*]
 #     hash of config parameters that need to be set.
 #   [*enabled*]
@@ -51,8 +39,6 @@
 #     `cluster_servers`.
 #   [*manage_status*]
 #     If true, manage the status user and status script.
-#   [*manage_repo*]
-#     If true, manage the yum or apt repo.
 #
 # Actions:
 #
@@ -69,30 +55,34 @@ class mariadb::cluster (
   $status_user             = 'clusterstatus',
   $wsrep_sst_method        = 'mysqldump',
   $wsrep_slave_threads     = $mariadb::params::slave_threads,
-  $package_names           = $mariadb::params::cluster_package_names,
   $package_ensure          = $mariadb::params::cluster_package_ensure,
-  $galera_name             = $mariadb::params::galera_package_name,
   $galera_ensure           = $mariadb::params::cluster_package_ensure,
   $debiansysmaint_password = undef,
   $status_password         = undef,
-  $repo_version            = $mariadb::params::repo_version,
   $config_hash             = {},
   $enabled                 = true,
   $single_cluster_peer     = true,
   $manage_status           = true,
-  $manage_repo             = true,
 ) inherits mariadb::params {
 
-  package { $galera_name:
+  include ::mariadb
+
+  package { $::mariadb::galera_name:
     ensure => $galera_ensure,
   }
 
+  if $wsrep_sst_method == 'xtrabackup' or $wsrep_sst_method == 'xtrabackup-v2' {
+    ensure_packages(['percona-xtrabackup'])
+  }
+
+  if $wsrep_sst_method == 'mariabackup' {
+    ensure_packages([$::mariadb::backup_package_name])
+  }
+
   class { 'mariadb::server':
-    package_names           => $package_names,
     package_ensure          => $package_ensure,
+    package_names           => $::mariadb::cluster_package_names,
     debiansysmaint_password => $debiansysmaint_password,
-    repo_version            => $repo_version,
-    manage_repo             => $manage_repo,
     config_hash             => $config_hash,
     enabled                 => $enabled,
   }
@@ -125,10 +115,6 @@ class mariadb::cluster (
   file { "${mariadb::params::config_dir}/galera_replication.cnf":
     content => template('mariadb/galera_replication.cnf.erb'),
     require => Class['mariadb::server'],
-  }
-
-  if $wsrep_sst_method == 'xtrabackup' or $wsrep_sst_method == 'xtrabackup-v2' {
-    ensure_packages(['percona-xtrabackup'])
   }
 
 }

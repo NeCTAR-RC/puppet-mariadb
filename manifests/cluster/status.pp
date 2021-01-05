@@ -33,11 +33,13 @@ class mariadb::cluster::status (
     flags      => 'REUSE',
     instances  => 500,
     per_source => 10,
+    cps        => '100 1',
   }
 
   database_user { "${status_user}@localhost":
     ensure        => present,
     password_hash => mysql_password($status_password),
+    require       => Class['mariadb::server'],
   }
 
   database_grant { "${status_user}@localhost":

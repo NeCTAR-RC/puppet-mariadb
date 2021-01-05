@@ -1,0 +1,62 @@
+{
+    "author": "Nectar",
+    "dependencies": [
+        {
+            "name": "puppetlabs/xinetd",
+            "version_requirement": ">=3.3.0"
+        },
+        {
+            "name": "puppetlabs/mysql",
+            "version_requirement": ">=8.0.0"
+        },
+        {
+            "name": "puppetlabs/stdlib",
+            "version_requirement": ">=4.0.0"
+        },
+        {
+            "name": "puppetlabs/apt",
+            "version_requirement": ">=6.0.0 <7.0.0"
+        }
+    ],
+    "description": "Installs and configures MariaDB",
+    "issues_url": "https://github.com/NeCTAR-RC/puppet-mariadb/issues",
+    "license": "Apache-2.0",
+    "name": "nectar-mariadb",
+    "operatingsystem_support": [
+        {
+            "operatingsystem": "Debian",
+            "operatingsystemrelease": [
+                "9"
+            ]
+        },
+        {
+            "operatingsystem": "Fedora",
+            "operatingsystemrelease": [
+                "24"
+            ]
+        },
+        {
+            "operatingsystem": "RedHat",
+            "operatingsystemrelease": [
+                "7"
+            ]
+        },
+        {
+            "operatingsystem": "Ubuntu",
+            "operatingsystemrelease": [
+                "18.04",
+                "20.04"
+            ]
+        }
+    ],
+    "project_page": "https://github.com/NeCTAR-RC/puppet-mariadb",
+    "requirements": [
+        {
+            "name": "puppet",
+            "version_requirement": "5.x"
+        }
+    ],
+    "source": "https://github.com/NeCTAR-RC/puppet-mariadb",
+    "summary": "Puppet module for MariaDB",
+    "version": "1.0.0"
+}

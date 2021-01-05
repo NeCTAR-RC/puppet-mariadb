@@ -12,13 +12,15 @@
 #
 class mariadb::params {
 
-  $bind_address        = '127.0.0.1'
-  $port                = 3306
-  $etc_root_password   = false
-  $ssl                 = false
-  $restart             = true
-  $slave_threads       = $::processorcount * 2
-  $repo_version        = '5.5'
+  $bind_address          = '127.0.0.1'
+  $port                  = 3306
+  $etc_root_password     = false
+  $ssl                   = false
+  $restart               = true
+  $slave_threads         = $::processorcount * 2
+  $version               = '5.5'
+  $server_package_ensure = 'installed'
+  $service_provider      = undef
 
   case $::osfamily {
     'RedHat': {
