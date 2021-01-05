@@ -36,8 +36,10 @@ class mariadb::backup (
   $backupcompress = true,
   $onefile = true,
   $ensure = 'present',
-  $backupmethod = 'mysqldump'
+  $backupmethod = 'mysqldump',
 ) {
+
+  include ::mariadb
 
   database_user { "${backupuser}@localhost":
     ensure        => $ensure,
@@ -46,14 +48,14 @@ class mariadb::backup (
   }
 
   database_grant { "${backupuser}@localhost":
-    privileges => [ 'Select_priv', 'Reload_priv', 'Lock_tables_priv', 'Show_view_priv', 'Repl_client_priv' ],
+    privileges => [ 'Select_priv', 'Reload_priv', 'Lock_tables_priv',
+                    'Show_view_priv', 'Repl_client_priv',
+                    'Process_priv', 'Super_priv' ],
     require    => Database_user["${backupuser}@localhost"],
   }
 
   if $backupmethod == 'mariabackup' {
-    package { $::mariadb::params::backup_package_name:
-      ensure => 'present',
-    }
+    ensure_packages([$::mariadb::backup_package_name])
     $backupscript = 'mariabackup.sh'
   } else {
     $backupscript = 'mysqlbackup.sh'
@@ -77,7 +79,11 @@ class mariadb::backup (
     content => template("mariadb/${backupscript}.erb"),
   }
 
-  file { 'mysqlbackupdir':
+  exec { "Create ${backupdir}":
+    creates => $backupdir,
+    command => "mkdir -p ${backupdir}",
+    path    => $::path
+  } -> file { 'mysqlbackupdir':
     ensure => 'directory',
     path   => $backupdir,
     mode   => '0700',
