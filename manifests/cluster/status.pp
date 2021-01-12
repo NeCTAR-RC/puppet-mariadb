@@ -42,8 +42,10 @@ class mariadb::cluster::status (
     require       => Class['mariadb::server'],
   }
 
-  database_grant { "${status_user}@localhost":
-    privileges => [ 'process_priv' ],
+  mysql_grant { "${status_user}@localhost/*.*":
+    user       => "${status_user}@localhost",
+    table      => '*.*',
+    privileges => [ 'PROCESS' ],
   }
 
 }

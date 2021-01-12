@@ -11,8 +11,10 @@ class mariadb::server::monitor (
     password_hash => mysql_password($mariadb_monitor_password),
   }
 
-  database_grant { "${mariadb_monitor_username}@${mariadb_monitor_hostname}":
-    privileges => [ 'process_priv', 'super_priv' ],
+  mysql_grant { "${mariadb_monitor_username}@${mariadb_monitor_hostname}/*.*":
+    user       => "${mariadb_monitor_username}@${mariadb_monitor_hostname}",
+    table      => '*.*',
+    privileges => [ 'PROCESS', 'SUPER' ],
     require    => Database_user["${mariadb_monitor_username}@${mariadb_monitor_hostname}"],
   }
 
