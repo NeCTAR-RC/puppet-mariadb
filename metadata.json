@@ -21,7 +21,7 @@
     "description": "Installs and configures MariaDB",
     "issues_url": "https://github.com/NeCTAR-RC/puppet-mariadb/issues",
     "license": "Apache-2.0",
-    "name": "nectar-mariadb",
+    "name": "mariadb",
     "operatingsystem_support": [
         {
             "operatingsystem": "Debian",
