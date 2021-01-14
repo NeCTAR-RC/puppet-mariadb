@@ -47,7 +47,7 @@ class mariadb::backup (
     require       => Class['mariadb::server'],
   }
 
-  if versioncmp(hiera('mariadb::version'), '10.4') {
+  if (versioncmp($::mariadb::version, '10.5') >= 0) {
     $grant = [ 'SELECT', 'RELOAD', 'LOCK TABLES', 'SHOW VIEW', 'BINLOG MONITOR', 'PROCESS', 'SUPER' ]
   } else {
     $grant = [ 'SELECT', 'RELOAD', 'LOCK TABLES', 'SHOW VIEW', 'REPLICATION CLIENT', 'PROCESS', 'SUPER' ]
