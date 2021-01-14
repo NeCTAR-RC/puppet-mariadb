@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d550ef1_b4da955f",
+        "filename": "manifests/backup.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-01-14T22:33:42Z",
+      "side": 1,
+      "message": "do you need to use hiera here since we importing mariadb class above anyway?",
+      "range": {
+        "startLine": 50,
+        "startChar": 17,
+        "endLine": 50,
+        "endChar": 22
+      },
+      "revId": "3e0b32a17e5e213578e711406bdcbbf02ef26591",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
