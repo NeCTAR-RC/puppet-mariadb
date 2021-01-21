@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed1a9ef1_9f4aa45d",
+        "filename": "manifests/init.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-01-21T22:35:14Z",
+      "side": 1,
+      "message": "I think this should be mariadb-common (it depends on mysql-common so it will be pulled in too)",
+      "range": {
+        "startLine": 68,
+        "startChar": 37,
+        "endLine": 68,
+        "endChar": 42
+      },
+      "revId": "df47906eef47107f87d61874592e531fe54510a7",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
