@@ -17,6 +17,8 @@ PATH=/usr/bin:/usr/sbin:/bin:/sbin
 
 find $DIR -type f -mtime +${DAYS} -delete
 
+umask 0077
+
 <%- if @onefile -%>
 FNAME="${DIR}/maria_backup_${DATE}.sql<% if @backupcompress %>.bz2<% end  %>"
 LOGNAME="${DIR}/$(basename ${FNAME}).log"
