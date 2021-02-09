@@ -16,19 +16,23 @@ DIR=<%= @backupdir %>
 DAYS=<%= @backupdays %>
 
 ##### STOP CONFIG ####################################################
-CREDS="-u${USER} -p${PASS}"
-MYSQLDUMP="mysqldump ${CREDS} --opt --flush-logs --single-transaction"
-DATE=`date +%Y%m%d-%H%M%S`
+CREDS="-u$USER -p$PASS"
+MYSQLDUMP="mysqldump $CREDS --opt --flush-logs --single-transaction"
+DATE=$(date +%Y%m%d-%H%M%S)
 PATH=/usr/bin:/usr/sbin:/bin:/sbin
 
-find $DIR -type f -mtime +${DAYS} -delete
+[ -d "$DIR" ] && find $DIR -type f -mtime +$DAYS -delete
 
 <%- if @onefile -%>
-FNAME="${DIR}/mysql_backup_${DATE}.sql<% if @backupcompress %>.bz2<% end  %>"
-${MYSQLDUMP} --all-databases <% if @backupcompress %>| bzcat -zc <% end %>> ${FNAME}
+TARGET="mysql_backup_$DATE"
+FNAME="$DIR/$PREFIX.sql<% if @backupcompress %>.<%= @compress_extension %><% end %>"
+{ $MYSQLDUMP --all-databases <% if @backupcompress %>| <%= @compress_command %> <% end %>> $FNAME.inprogress; } 2> $DIR/$TARGET.log
+mv $FNAME.inprogress $FNAME
 <%- else -%>
-for DB in $(echo "show databases" |mysql -N ${CREDS} |grep -v '^#'); do
-    FNAME="${DIR}/${DATE}-${DB}.sql<% if @backupcompress %>.bz2<% end  %>"
-    ${MYSQLDUMP} --databases ${DB} <% if @backupcompress %>| bzcat -zc <% end %>>${FNAME}
+for DB in $(mysql $CREDS -N -s -e "show databases;"); do
+    TARGET="mysql_backup_$DATE-$DB"
+    FNAME="$DIR/$TARGET.bin<% if @backupcompress %>.<%= @compress_extension %><% end %>"
+    { $MYSQLDUMP --databases $DB <% if @backupcompress %>| <%= @compress_command %> <% end %>>$FNAME.inprogress; } 2> $DIR/$TARGET.log
+    mv $FNAME.inprogress $FNAME
 done
 <%- end -%>

@@ -10,25 +10,25 @@ DIR=<%= @backupdir %>
 DAYS=<%= @backupdays %>
 
 ##### STOP CONFIG ####################################################
-CREDS="-u${USER} -p${PASS}"
-MARIABACKUP="mariabackup ${CREDS} --lock-ddl-per-table --backup --stream=xbstream --open-files-limit=4096 --galera-info"
-DATE=`date +%Y%m%d-%H%M%S`
+CREDS="-u$USER -p$PASS"
+MARIABACKUP="mariabackup $CREDS --lock-ddl-per-table --backup --stream=xbstream --open-files-limit=4096 --galera-info"
+DATE=$(date +%Y%m%d-%H%M%S)
 PATH=/usr/bin:/usr/sbin:/bin:/sbin
 
-find $DIR -type f -mtime +${DAYS} -delete
+[ -d "$DIR" ] && find "$DIR" -type f -mtime +$DAYS -delete
 
 umask 0077
 
 <%- if @onefile -%>
-FNAME="${DIR}/maria_backup_${DATE}.sql<% if @backupcompress %>.bz2<% end  %>"
-LOGNAME="${DIR}/$(basename ${FNAME}).log"
-{ ${MARIABACKUP} <% if @backupcompress %>| bzcat -zc <% end %>> ${FNAME}.inprogress; } 2> ${LOGNAME}
-mv ${FNAME}.inprogress ${FNAME}
+TARGET="maria_backup_$DATE"
+FNAME="$DIR/$TARGET.bin<% if @backupcompress %>.<%= @compress_extension %><% end %>"
+{ $MARIABACKUP <% if @backupcompress %>| <%= @compress_command %> <% end %>> $FNAME.inprogress; } 2> $DIR/$TARGET.log
+mv $FNAME.inprogress $FNAME
 <%- else -%>
-for DB in $(echo "show databases" |mysql -N ${CREDS} |grep -v '^#'); do
-    FNAME="${DIR}/${DATE}-${DB}.sql<% if @backupcompress %>.bz2<% end  %>"
-    LOGNAME="${DIR}/$(basename ${FNAME}).log"
-    { ${MARIABACKUP} --databases ${DB} <% if @backupcompress %>| bzcat -zc <% end %>>${FNAME}.inprogress; } 2> ${LOGNAME}
-    mv ${FNAME}.inprogress ${FNAME}
+for DB in $(mysql $CREDS -N -s -e "show databases;"); do
+    TARGET="maria_backup_$DATE-$DB"
+    FNAME="$DIR/$TARGET.bin<% if @backupcompress %>.<%= @compress_extension %><% end %>"
+    { $MARIABACKUP --databases $DB <% if @backupcompress %>| <%= @compress_command %> <% end %>>$FNAME.inprogress; } 2> $DIR/$TARGET.log
+    mv $FNAME.inprogress $FNAME
 done
 <%- end -%>

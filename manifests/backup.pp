@@ -37,6 +37,9 @@ class mariadb::backup (
   $onefile = true,
   $ensure = 'present',
   $backupmethod = 'mysqldump',
+  $compresstype = 'bzip2',
+  $compressparallel = false,
+  $compressthreads = min($::processorcount/2, 2),
 ) {
 
   include ::mariadb
@@ -57,6 +60,30 @@ class mariadb::backup (
     table      => '*.*',
     privileges => $grant,
     require    => Database_user["${backupuser}@localhost"],
+  }
+
+  if $backupcompress and $compressparallel {
+    case $compresstype {
+      'gzip': {
+        $compress_command = "pigz -p ${compressthreads}"
+        $compress_extension = 'gz'
+        ensure_packages(['pigz'])
+      }
+      'xz': {
+        $compress_command = "pixz -p ${compressthreads}"
+        $compress_extension = 'xz'
+        ensure_packages(['pixz'])
+      }
+      'bzip2': {
+        $compress_command = "pbzip2 -z -c -p${compressthreads}"
+        $compress_extension = 'bzip2'
+        ensure_packages(['pbzip2'])
+      }
+      default: {
+          fail('Unknown compression type. Must be one of gzip, xz or bzip2')
+      }
+    }
+
   }
 
   if $backupmethod == 'mariabackup' {
