@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56ea8fec_78b92e32",
+        "filename": "manifests/backup.pp",
+        "patchSetId": 5
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2021-02-10T03:41:25Z",
+      "side": 1,
+      "message": "if this is false it doesn\u0027t set a compress_command anywhere I think?",
+      "range": {
+        "startLine": 65,
+        "startChar": 25,
+        "endLine": 65,
+        "endChar": 42
+      },
+      "revId": "cfe0dff7bd36b25cbf8cacb9f77f719ca7c1ef7c",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
