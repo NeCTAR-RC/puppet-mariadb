@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30ffe2af_1c6e30d8",
+        "filename": "templates/mariabackup.sh.erb",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2021-02-10T02:33:27Z",
+      "side": 1,
+      "message": "TARGET ?",
+      "revId": "c0ce677235ca1d038e401e44fc8159d921ff7d78",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
