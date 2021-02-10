@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49651403_3f43a4b7",
+        "filename": "manifests/backup.pp",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2021-02-10T03:16:22Z",
+      "side": 1,
+      "message": "this seems to just be broken - $backupdir isn\u0027t required - and later we have \n\"find $DIR -type f -mtime +$DAYS -delete\"\nwhy exec exec a mkdir in the first place ?",
+      "revId": "5a27f00cc92447b117183ab1178544e7b830850c",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
