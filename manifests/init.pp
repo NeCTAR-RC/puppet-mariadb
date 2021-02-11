@@ -65,7 +65,7 @@ class mariadb (
         '10.5': {
           $server_package_names  = ['mariadb-server']
           $cluster_package_names = $server_package_names
-          $client_package_names  = ['mariadb-client']
+          $client_package_names  = ['mysql-common', 'mariadb-client']
           $galera_name           = 'galera-4'
           $backup_package_name   = 'mariadb-backup'
         }
