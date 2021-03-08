@@ -62,7 +62,7 @@ class mariadb::backup (
     require    => Database_user["${backupuser}@localhost"],
   }
 
-  if $backupcompress and $compressparallel {
+  if $backupcompress {
     case $compresstype {
       'gzip': {
         $compress_extension = 'gz'
