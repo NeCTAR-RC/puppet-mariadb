@@ -25,7 +25,7 @@ PATH=/usr/bin:/usr/sbin:/bin:/sbin
 
 <%- if @onefile -%>
 TARGET="mysql_backup_$DATE"
-FNAME="$DIR/$PREFIX.sql<% if @backupcompress %>.<%= @compress_extension %><% end %>"
+FNAME="$DIR/$TARGET.sql<% if @backupcompress %>.<%= @compress_extension %><% end %>"
 { $MYSQLDUMP --all-databases <% if @backupcompress %>| <%= @compress_command %> <% end %>> $FNAME.inprogress; } 2> $DIR/$TARGET.log
 mv $FNAME.inprogress $FNAME
 <%- else -%>
