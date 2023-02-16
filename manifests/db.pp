@@ -44,10 +44,16 @@ define mariadb::db (
   Enum['present', 'absent'] $ensure      = 'present'
 ) {
 
+  if $mariadb::version == '10.6' and $charset == 'utf8' {
+    $_charset = 'utf8mb3'
+  } else {
+    $_charset = $charset
+  }
+
   database { $name:
-    ensure   => $ensure,
-    charset  => $charset,
-    require  => Class['mariadb::server'],
+    ensure  => $ensure,
+    charset => $_charset,
+    require => Class['mariadb::server'],
   }
 
   database_user { "${user}@${host}":
