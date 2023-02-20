@@ -37,6 +37,7 @@ class mariadb::params {
       $socket                 = '/var/lib/mysql/mysql.sock'
       $pidfile                = '/var/run/mysqld/mysqld.pid'
       $config_file            = '/etc/my.cnf'
+      $config_file_symlink    = false
       $config_dir             = '/etc/my.cnf.d'
       $log_error              = '/var/log/mysqld.log'
       $ruby_package_name      = 'ruby-mysql'
@@ -67,7 +68,8 @@ class mariadb::params {
       $galera_package_name    = 'galera'
       $socket                 = '/var/run/mysqld/mysqld.sock'
       $pidfile                = '/var/run/mysqld/mysqld.pid'
-      $config_file            = '/etc/mysql/my.cnf'
+      $config_file            = '/etc/mysql/mariadb.cnf'
+      $config_file_symlink    = true
       $config_dir             = '/etc/mysql/conf.d'
       $log_error              = '/var/log/mysql/error.log'
       $ruby_package_name      = 'libmysql-ruby'
