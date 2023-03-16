@@ -87,4 +87,9 @@ class mariadb::server (
       provider => $service_provider,
     }
   }
+  if $debiansysmaint_password {
+    class {'mariadb::server::debiansysmaint':
+      password => $debiansysmaint_password,
+    }
+  }
 }
