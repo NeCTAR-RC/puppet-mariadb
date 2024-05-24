@@ -17,12 +17,12 @@ class mariadb::params {
   $etc_root_password     = false
   $ssl                   = false
   $restart               = true
-  $slave_threads         = $::processorcount * 2
+  $slave_threads         = $facts['processors']['count'] * 2
   $version               = '5.5'
   $server_package_ensure = 'installed'
   $service_provider      = undef
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
       $basedir                = '/usr'
       $datadir                = '/var/lib/mysql'
@@ -87,7 +87,7 @@ class mariadb::params {
     }
 
     default: {
-      fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, module ${module_name} only support osfamily RedHat, Debian")
+      fail("Unsupported osfamily: ${facts['os']['family']} operatingsystem: ${facts['os']['name']}, module ${module_name} only support osfamily RedHat, Debian")
     }
   }
 

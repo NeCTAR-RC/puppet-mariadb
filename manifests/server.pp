@@ -58,7 +58,7 @@ class mariadb::server (
   }
 
   file { '/var/log/mysql/error.log':
-    owner => mysql,
+    owner   => mysql,
     require => Package[$real_package_names],
   }
 

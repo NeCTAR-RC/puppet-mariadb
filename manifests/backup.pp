@@ -39,7 +39,7 @@ class mariadb::backup (
   $backupmethod = 'mysqldump',
   $compresstype = 'bzip2',
   $compressparallel = false,
-  $compressthreads = min($::processorcount/2, 2),
+  $compressthreads = min($facts['processors']['count']/2, 2),
 ) {
 
   include ::mariadb
@@ -126,7 +126,7 @@ class mariadb::backup (
   exec { "Create ${backupdir}":
     creates => $backupdir,
     command => "mkdir -p ${backupdir}",
-    path    => $::path
+    path    => $facts['path']
   } -> file { 'mysqlbackupdir':
     ensure => 'directory',
     path   => $backupdir,

@@ -104,7 +104,7 @@ class mariadb::config(
       unless    => "mysqladmin -u root -p'${root_password}' status > /dev/null",
       path      => '/usr/local/sbin:/usr/bin:/usr/local/bin',
       notify    => $restart ? {
-        true => Exec['mariadb-restart'],
+        true  => Exec['mariadb-restart'],
         false => undef,
       },
       require   => File[$mariadb::params::config_dir],

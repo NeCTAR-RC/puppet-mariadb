@@ -31,7 +31,7 @@ class mariadb (
   $mirror         = $mariadb::params::default_mirror
 ) inherits mariadb::params {
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
       $server_package_names  = $mariadb::params::server_package_names
       $cluster_package_names = $mariadb::params::cluster_package_names
@@ -93,7 +93,7 @@ class mariadb (
       }
     }
     default: {
-      fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, module ${module_name} only support osfamily RedHat, Debian")
+      fail("Unsupported osfamily: ${facts['os']['family']} operatingsystem: ${facts['os']['name']}, module ${module_name} only support osfamily RedHat, Debian")
     }
   }
 
