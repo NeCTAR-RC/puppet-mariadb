@@ -14,13 +14,9 @@ class mariadb::repo::debian {
     repos    => 'main',
   }
 
-  apt::key { 'mariadb-1':
-    id     => '199369E5404BD5FC7D2FE43BCBCB082A1BB943DB',
-    server => 'keyserver.ubuntu.com',
-  }
-  apt::key { 'mariadb-2':
+  apt::key { 'mariadb':
     id     => '177F4010FE56CA3336300305F1656F24C74CD1D8',
-    server => 'keyserver.ubuntu.com',
+    source => 'https://supplychain.mariadb.com/MariaDB-Server-GPG-KEY',
   }
 
   Apt::Source <| title == 'mariadb' |> -> Class['apt::update'] -> Package <| tag == 'mariadb' |>
