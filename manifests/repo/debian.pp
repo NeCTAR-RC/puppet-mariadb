@@ -8,10 +8,16 @@ class mariadb::repo::debian {
     originator => 'mariadb',
     priority   => 1001,
   }
-  -> apt::source { 'mariadb':
+
+  apt::source { 'mariadb':
     location => "${::mariadb::mirror}/repo/${::mariadb::version}/${os}",
     release  => $facts['os']['distro']['codename'],
     repos    => 'main',
+    require  => [
+      Apt::Pin['apt_mariadb'],
+      Apt::Key['mariadb']
+    ],
+    notify   => Exec['apt_update'],
   }
 
   apt::key { 'mariadb':
@@ -19,6 +25,6 @@ class mariadb::repo::debian {
     source => 'https://supplychain.mariadb.com/MariaDB-Server-GPG-KEY',
   }
 
-  Apt::Source <| title == 'mariadb' |> -> Class['apt::update'] -> Package <| tag == 'mariadb' |>
+  Class['apt::update'] -> Package <| tag == 'mariadb' |>
 
 }
