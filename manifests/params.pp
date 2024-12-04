@@ -73,7 +73,7 @@ class mariadb::params {
       $config_dir             = '/etc/mysql/conf.d'
       $log_error              = '/var/log/mysql/error.log'
       $ruby_package_name      = 'libmysql-ruby'
-      $python_package_name    = 'python-mysqldb'
+      $python_package_name    = 'python3-mysqldb'
       $php_package_name       = 'php5-mysql'
       $java_package_name      = 'libmysql-java'
       $root_group             = 'root'
