@@ -48,6 +48,8 @@ define mariadb::db (
     $_charset = 'utf8mb3'
   } elsif $mariadb::version == '10.11' and $charset == 'utf8' {
     $_charset = 'utf8mb4'
+  } elsif $mariadb::version == '11.4' and $charset == 'utf8' {
+    $_charset = 'utf8mb4'
   } else {
     $_charset = $charset
   }
