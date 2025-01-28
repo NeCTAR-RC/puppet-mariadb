@@ -34,6 +34,8 @@ class mariadb::backup (
   $backupdir,
   $backupdays = 30,
   $backupcompress = true,
+  $backuphour = 5,
+  $backuphour_random = true,
   $onefile = true,
   $ensure = 'present',
   $backupmethod = 'mysqldump',
@@ -105,11 +107,17 @@ class mariadb::backup (
     $backupscript = 'mysqlbackup.sh'
   }
 
+  if $backuphour_random {
+    $real_backuphour = fqdn_rand($backuphour)
+  } else {
+    $real_backuphour = $backuphour
+  }
+
   cron { 'mysql-backup':
     ensure  => $ensure,
     command => "/usr/local/sbin/${backupscript}",
     user    => 'root',
-    hour    => fqdn_rand(5),
+    hour    => $real_backuphour,
     minute  => fqdn_rand(59),
     require => File[$backupscript],
   }
