@@ -90,6 +90,7 @@ class mariadb::backup (
           ensure_packages(['pbzip2'])
           $compress_command = "pbzip2 -z -c -p${compressthreads}"
         } else {
+          ensure_packages(['bzip2'])
           $compress_command = 'bzcat -z -c'
         }
       }
