@@ -69,7 +69,7 @@ class mariadb::backup (
       'gzip': {
         $compress_extension = 'gz'
         if $compressparallel {
-          ensure_packages(['pigz'])
+          stdlib::ensure_packages(['pigz'])
           $compress_command = "pigz -p ${compressthreads}"
         } else {
           $compress_command = 'gzip'
@@ -78,7 +78,7 @@ class mariadb::backup (
       'xz': {
         $compress_extension = 'xz'
         if $compressparallel {
-          ensure_packages(['pixz'])
+          stdlib::ensure_packages(['pixz'])
           $compress_command = "pixz -p ${compressthreads}"
         } else {
           $compress_command = 'xz'
@@ -87,10 +87,10 @@ class mariadb::backup (
       'bzip2': {
         $compress_extension = 'bz2'
         if $compressparallel {
-          ensure_packages(['pbzip2'])
+          stdlib::ensure_packages(['pbzip2'])
           $compress_command = "pbzip2 -z -c -p${compressthreads}"
         } else {
-          ensure_packages(['bzip2'])
+          stdlib::ensure_packages(['bzip2'])
           $compress_command = 'bzcat -z -c'
         }
       }
@@ -102,7 +102,7 @@ class mariadb::backup (
   }
 
   if $backupmethod == 'mariabackup' {
-    ensure_packages([$::mariadb::backup_package_name])
+    stdlib::ensure_packages([$::mariadb::backup_package_name])
     $backupscript = 'mariabackup.sh'
   } else {
     $backupscript = 'mysqlbackup.sh'

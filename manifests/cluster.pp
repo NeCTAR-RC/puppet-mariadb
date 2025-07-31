@@ -72,11 +72,11 @@ class mariadb::cluster (
   }
 
   if $wsrep_sst_method == 'xtrabackup' or $wsrep_sst_method == 'xtrabackup-v2' {
-    ensure_packages(['percona-xtrabackup'])
+    stdlib::ensure_packages(['percona-xtrabackup'])
   }
 
   if $wsrep_sst_method == 'mariabackup' {
-    ensure_packages([$::mariadb::backup_package_name])
+    stdlib::ensure_packages([$::mariadb::backup_package_name])
   }
 
   class { 'mariadb::server':
