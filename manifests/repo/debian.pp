@@ -1,4 +1,7 @@
-class mariadb::repo::debian {
+class mariadb::repo::debian (
+  String $key_id     = '177F4010FE56CA3336300305F1656F24C74CD1D8',
+  String $key_source = 'https://supplychain.mariadb.com/MariaDB-Server-GPG-KEY',
+){
   $os = downcase($facts['os']['name'])
 
   include ::mariadb
@@ -21,8 +24,8 @@ class mariadb::repo::debian {
   }
 
   apt::key { 'mariadb':
-    id     => '177F4010FE56CA3336300305F1656F24C74CD1D8',
-    source => 'https://supplychain.mariadb.com/MariaDB-Server-GPG-KEY',
+    id     => $key_id,
+    source => $key_source,
   }
 
   Class['apt::update'] -> Package <| tag == 'mariadb' |>
