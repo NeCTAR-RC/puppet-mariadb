@@ -4,28 +4,22 @@ class mariadb::repo::debian (
 ){
   $os = downcase($facts['os']['name'])
 
-  include ::mariadb
-  include ::apt
-
-  apt::pin { 'apt_mariadb':
-    originator => 'mariadb',
-    priority   => 1001,
-  }
+  include mariadb
+  include apt
 
   apt::source { 'mariadb':
     location => "${::mariadb::mirror}/repo/${::mariadb::version}/${os}",
     release  => $facts['os']['distro']['codename'],
     repos    => 'main',
-    require  => [
-      Apt::Pin['apt_mariadb'],
-      Apt::Key['mariadb']
-    ],
+    pin      => {
+      originator => 'mariadb',
+      priority   =>  1001,
+    },
+    key      => {
+      id     => $key_id,
+      source => $key_source,
+    },
     notify   => Exec['apt_update'],
-  }
-
-  apt::key { 'mariadb':
-    id     => $key_id,
-    source => $key_source,
   }
 
   Class['apt::update'] -> Package <| tag == 'mariadb' |>
