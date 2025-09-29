@@ -16,7 +16,7 @@ class mariadb::repo::debian (
       priority   =>  1001,
     },
     key      => {
-      id     => $key_id,
+      name   => 'mariadb.asc',
       source => $key_source,
     },
     notify   => Exec['apt_update'],
