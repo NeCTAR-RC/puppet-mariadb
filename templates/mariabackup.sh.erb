@@ -15,7 +15,7 @@ MARIABACKUP="mariabackup $CREDS --lock-ddl-per-table --backup --stream=xbstream 
 DATE=$(date +%Y%m%d-%H%M%S)
 PATH=/usr/bin:/usr/sbin:/bin:/sbin
 
-[ -d "$DIR" ] && find "$DIR" -type f -mtime +$DAYS -delete
+[ -d "$DIR" ] && find "$DIR" -type f -mmin +$((DAYS * 24 * 60 - 60)) -delete
 
 umask 0077
 
