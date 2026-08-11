@@ -29,7 +29,7 @@
 #  mariadb::db { 'mydb':
 #    user     => 'my_user',
 #    password => 'password',
-#    host     => $::hostname,
+#    host     => "%{facts.networking.hostname},
 #    grant    => ['all']
 #  }
 #
