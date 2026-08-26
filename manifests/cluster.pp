@@ -5,7 +5,7 @@
 #
 # Parameters:
 #   [*wsrep_sst_password*]
-#     Password for the replication user.
+#     Password for the replication user. Accepts a Sensitive value.
 #   [*cluster_servers*]
 #     Array of hosts in the galera cluster. Can be specified as names
 #     or IP addresses.
@@ -26,7 +26,7 @@
 #   [*galera_ensure*]
 #     The galera package ensure value.
 #   [*status_password*]
-#     The password for the status user.
+#     The password for the status user. Accepts a Sensitive value.
 #   [*config_hash*]
 #     hash of config parameters that need to be set.
 #   [*enabled*]
@@ -47,7 +47,7 @@
 # Sample Usage:
 #
 class mariadb::cluster (
-  $wsrep_sst_password,
+  Variant[String[1], Sensitive[String[1]]] $wsrep_sst_password,
   $cluster_servers,
   $cluster_iface           = 'eth0',
   $wsrep_sst_user          = 'root',
@@ -57,8 +57,8 @@ class mariadb::cluster (
   $wsrep_slave_threads     = $mariadb::params::slave_threads,
   $package_ensure          = $mariadb::params::cluster_package_ensure,
   $galera_ensure           = $mariadb::params::cluster_package_ensure,
-  $debiansysmaint_password = undef,
-  $status_password         = undef,
+  Optional[Variant[String[1], Sensitive[String[1]]]] $debiansysmaint_password = undef,
+  Optional[Variant[String[1], Sensitive[String[1]]]] $status_password         = undef,
   $config_hash             = {},
   $enabled                 = true,
   $single_cluster_peer     = true,
@@ -110,10 +110,12 @@ class mariadb::cluster (
     $cluster_peer = join($cluster_servers,',')
   }
 
-  $wsrep_sst_auth = "${wsrep_sst_user}:${wsrep_sst_password}"
+  $real_wsrep_sst_password = $wsrep_sst_password.unwrap
+
+  $wsrep_sst_auth = "${wsrep_sst_user}:${real_wsrep_sst_password}"
 
   file { "${mariadb::params::config_dir}/galera_replication.cnf":
-    content => template('mariadb/galera_replication.cnf.erb'),
+    content => Sensitive(template('mariadb/galera_replication.cnf.erb')),
     require => Class['mariadb::server'],
   }
 

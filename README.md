@@ -64,6 +64,19 @@ Installs a mysql backup script, cronjob, and priviledged backup user.
       backupdir      => '/tmp/backups',
     }
 
+### Sensitive values
+All password parameters accept either a plain `String` or a `Sensitive[String]`
+value, so secrets are redacted from logs, reports and file diffs:
+
+    mariadb::db { 'mydb':
+      user     => 'myuser',
+      password => Sensitive('mypass'),
+    }
+
+Passwords bound directly to class parameters from hiera are automatically
+wrapped in `Sensitive` via the module's `lookup_options` in
+`data/common.yaml`.
+
 ### Providers for database types:
 MySQL provider supports puppet resources command:
 

@@ -10,7 +10,7 @@
 # Parameters:
 #   [*title*]       - mariadb database name.
 #   [*user*]        - username to create and grant access.
-#   [*password*]    - user's password.
+#   [*password*]    - user's password. Accepts a Sensitive value.
 #   [*charset*]     - database charset.
 #   [*host*]        - host for assigning privileges to user.
 #   [*grant*]       - array of privileges to grant user.
@@ -35,7 +35,7 @@
 #
 define mariadb::db (
   String                    $user,
-  String                    $password,
+  Variant[String[1], Sensitive[String[1]]] $password,
   String                    $charset     = 'utf8',
   String                    $host        = 'localhost',
   String                    $grant       = 'all',
@@ -43,6 +43,8 @@ define mariadb::db (
   Boolean                   $enforce_sql = false,
   Enum['present', 'absent'] $ensure      = 'present'
 ) {
+
+  $_password = $password.unwrap
 
   if $mariadb::version == '10.6' and $charset == 'utf8' {
     $_charset = 'utf8mb3'
@@ -62,7 +64,7 @@ define mariadb::db (
 
   database_user { "${user}@${host}":
     ensure        => $ensure,
-    password_hash => mysql_password($password),
+    password_hash => Sensitive(mysql_password($_password)),
     require       => Database[$name],
   }
 

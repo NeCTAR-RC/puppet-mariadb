@@ -1,0 +1,26 @@
+---
+# Automatically wrap password values bound from hiera in Sensitive so they
+# are redacted from logs, reports and catalogs.
+lookup_options:
+  mariadb::backup::backuppassword:
+    convert_to: 'Sensitive'
+  mariadb::cluster::wsrep_sst_password:
+    convert_to: 'Sensitive'
+  mariadb::cluster::debiansysmaint_password:
+    convert_to: 'Sensitive'
+  mariadb::cluster::status_password:
+    convert_to: 'Sensitive'
+  mariadb::cluster::auth::wsrep_sst_password:
+    convert_to: 'Sensitive'
+  mariadb::cluster::status::status_password:
+    convert_to: 'Sensitive'
+  mariadb::config::root_password:
+    convert_to: 'Sensitive'
+  mariadb::config::old_root_password:
+    convert_to: 'Sensitive'
+  mariadb::server::debiansysmaint_password:
+    convert_to: 'Sensitive'
+  mariadb::server::debiansysmaint::password:
+    convert_to: 'Sensitive'
+  mariadb::server::monitor::mariadb_monitor_password:
+    convert_to: 'Sensitive'

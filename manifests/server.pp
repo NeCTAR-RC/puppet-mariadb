@@ -33,7 +33,7 @@ class mariadb::server (
   $package_names           = undef,
   $service_name            = $mariadb::params::service_name,
   $service_provider        = $mariadb::params::service_provider,
-  $debiansysmaint_password = undef,
+  Optional[Variant[String[1], Sensitive[String[1]]]] $debiansysmaint_password = undef,
   $config_hash             = {},
   $enabled                 = true,
   $manage_service          = true,

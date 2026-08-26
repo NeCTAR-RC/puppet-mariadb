@@ -4,7 +4,8 @@
 #
 # Parameters:
 #   [*backupuser*]     - The name of the mariadb backup user.
-#   [*backuppassword*] - The password of the mariadb backup user.
+#   [*backuppassword*] - The password of the mariadb backup user. Accepts a
+#                        Sensitive value.
 #   [*backupdir*]      - The target directory of the mariadbdump.
 #   [*backupcompress*] - Boolean to compress backup with bzip2.
 #   [*backupdays*]     - Number of days of backups to keep.
@@ -30,7 +31,7 @@
 #
 class mariadb::backup (
   $backupuser,
-  $backuppassword,
+  Variant[String[1], Sensitive[String[1]]] $backuppassword,
   $backupdir,
   $backupdays = 30,
   $backupcompress = true,
@@ -46,9 +47,11 @@ class mariadb::backup (
 
   include ::mariadb
 
+  $real_backuppassword = $backuppassword.unwrap
+
   database_user { "${backupuser}@localhost":
     ensure        => $ensure,
-    password_hash => mysql_password($backuppassword),
+    password_hash => Sensitive(mysql_password($real_backuppassword)),
     require       => Class['mariadb::server'],
   }
 
@@ -129,7 +132,7 @@ class mariadb::backup (
     mode    => '0700',
     owner   => 'root',
     group   => 'root',
-    content => template("mariadb/${backupscript}.erb"),
+    content => Sensitive(template("mariadb/${backupscript}.erb")),
   }
 
   exec { "Create ${backupdir}":

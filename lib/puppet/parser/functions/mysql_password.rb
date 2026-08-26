@@ -14,8 +14,11 @@ module Puppet::Parser::Functions
       raise Puppet::ParseError, _('mysql_password(): Wrong number of arguments given (%{args_length} for 1)') % { args_length: args.length }
     end
 
-    return '' if args[0].empty?
-    return args[0] if args[0] =~ %r{\*[A-F0-9]{40}$}
-    '*' + Digest::SHA1.hexdigest(Digest::SHA1.digest(args[0])).upcase
+    password = args[0]
+    password = password.unwrap if password.respond_to?(:unwrap)
+
+    return '' if password.empty?
+    return password if password =~ %r{\*[A-F0-9]{40}$}
+    '*' + Digest::SHA1.hexdigest(Digest::SHA1.digest(password)).upcase
   end
 end

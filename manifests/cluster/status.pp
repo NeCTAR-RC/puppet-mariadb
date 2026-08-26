@@ -1,10 +1,12 @@
 class mariadb::cluster::status (
   $status_user,
-  $status_password,
+  Variant[String[1], Sensitive[String[1]]] $status_password,
 ) {
 
+  $real_status_password = $status_password.unwrap
+
   file { '/usr/local/bin/clustercheck':
-    content => template('mariadb/clustercheck.erb'),
+    content => Sensitive(template('mariadb/clustercheck.erb')),
     owner   => 'root',
     group   => 'root',
     mode    => '0755',
@@ -38,7 +40,7 @@ class mariadb::cluster::status (
 
   database_user { "${status_user}@localhost":
     ensure        => present,
-    password_hash => mysql_password($status_password),
+    password_hash => Sensitive(mysql_password($real_status_password)),
     require       => Class['mariadb::server'],
   }
 

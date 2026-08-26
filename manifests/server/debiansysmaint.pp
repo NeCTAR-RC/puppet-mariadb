@@ -1,10 +1,12 @@
 class mariadb::server::debiansysmaint (
-  $password,
+  Variant[String[1], Sensitive[String[1]]] $password,
 ) {
+
+  $real_password = $password.unwrap
 
   database_user { 'debian-sys-maint@localhost':
     ensure        => present,
-    password_hash => mysql_password($password),
+    password_hash => Sensitive(mysql_password($real_password)),
     require       => Class['mariadb::server'],
   }
 
