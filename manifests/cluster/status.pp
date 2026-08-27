@@ -1,5 +1,5 @@
 class mariadb::cluster::status (
-  $status_user,
+  String[1] $status_user,
   Variant[String[1], Sensitive[String[1]]] $status_password,
 ) {
 

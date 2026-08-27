@@ -1,9 +1,9 @@
 class mariadb::cluster::config (
-  $wsrep_cluster_name,
-  $wsrep_sst_auth,
-  $wsrep_sst_method,
-  $wsrep_slave_threads,
-  $config_dir           = $mariadb::params::config_dir,
+  String[1]            $wsrep_cluster_name,
+  String[1]            $wsrep_sst_auth,
+  String[1]            $wsrep_sst_method,
+  Integer[1]           $wsrep_slave_threads,
+  Stdlib::Absolutepath $config_dir = $mariadb::params::config_dir,
 ) inherits mariadb::params {
 
   include ::mariadb

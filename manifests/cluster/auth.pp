@@ -1,6 +1,6 @@
 class mariadb::cluster::auth (
   Variant[String[1], Sensitive[String[1]]] $wsrep_sst_password,
-  $wsrep_sst_user     = 'root',
+  String[1] $wsrep_sst_user = 'root',
 ) {
 
   $real_wsrep_sst_password = $wsrep_sst_password.unwrap

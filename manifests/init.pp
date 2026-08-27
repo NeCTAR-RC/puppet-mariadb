@@ -25,10 +25,10 @@
 # Sample Usage:
 #
 class mariadb (
-  $package_ensure = 'present',
-  $version        = $mariadb::params::version,
-  $manage_repo    = true,
-  $mirror         = $mariadb::params::default_mirror
+  String[1] $package_ensure = 'present',
+  String[1] $version        = $mariadb::params::version,
+  Boolean   $manage_repo    = true,
+  String[1] $mirror         = $mariadb::params::default_mirror
 ) inherits mariadb::params {
 
   case $facts['os']['family'] {

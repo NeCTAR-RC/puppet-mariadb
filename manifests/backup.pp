@@ -30,19 +30,19 @@
 #   }
 #
 class mariadb::backup (
-  $backupuser,
+  String[1] $backupuser,
   Variant[String[1], Sensitive[String[1]]] $backuppassword,
-  $backupdir,
-  $backupdays = 30,
-  $backupcompress = true,
-  $backuphour = 5,
-  $backuphour_random = true,
-  $onefile = true,
-  $ensure = 'present',
-  $backupmethod = 'mysqldump',
-  $compresstype = 'bzip2',
-  $compressparallel = false,
-  $compressthreads = min($facts['processors']['count']/2, 2),
+  Stdlib::Absolutepath $backupdir,
+  Integer[1] $backupdays = 30,
+  Boolean $backupcompress = true,
+  Integer[0, 23] $backuphour = 5,
+  Boolean $backuphour_random = true,
+  Boolean $onefile = true,
+  Enum['present', 'absent'] $ensure = 'present',
+  Enum['mysqldump', 'mariabackup'] $backupmethod = 'mysqldump',
+  Enum['gzip', 'xz', 'bzip2'] $compresstype = 'bzip2',
+  Boolean $compressparallel = false,
+  Integer[1] $compressthreads = min($facts['processors']['count']/2, 2),
 ) {
 
   include ::mariadb

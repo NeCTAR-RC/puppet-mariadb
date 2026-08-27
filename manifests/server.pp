@@ -29,14 +29,14 @@
 # Sample Usage:
 #
 class mariadb::server (
-  $package_ensure          = $mariadb::params::server_package_ensure,
-  $package_names           = undef,
-  $service_name            = $mariadb::params::service_name,
-  $service_provider        = $mariadb::params::service_provider,
+  String[1]                  $package_ensure   = $mariadb::params::server_package_ensure,
+  Optional[Array[String[1]]] $package_names    = undef,
+  String[1]                  $service_name     = $mariadb::params::service_name,
+  Optional[String[1]]        $service_provider = $mariadb::params::service_provider,
   Optional[Variant[String[1], Sensitive[String[1]]]] $debiansysmaint_password = undef,
-  $config_hash             = {},
-  $enabled                 = true,
-  $manage_service          = true,
+  Hash                       $config_hash      = {},
+  Boolean                    $enabled          = true,
+  Boolean                    $manage_service   = true,
 ) inherits mariadb::params {
 
   include ::mariadb

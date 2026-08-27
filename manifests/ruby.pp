@@ -14,9 +14,9 @@
 # Sample Usage:
 #
 class mariadb::ruby (
-  $package_name     = $mariadb::params::ruby_package_name,
-  $package_provider = $mariadb::params::ruby_package_provider,
-  $package_ensure   = 'present'
+  String[1]           $package_name     = $mariadb::params::ruby_package_name,
+  Optional[String[1]] $package_provider = $mariadb::params::ruby_package_provider,
+  String[1]           $package_ensure   = 'present'
 ) inherits mariadb::params {
 
   package{ 'ruby_mysql':

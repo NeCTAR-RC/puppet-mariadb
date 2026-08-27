@@ -83,8 +83,8 @@
 #
 define mariadb::server::config (
   Hash $settings,
-  Boolean $notify_service = true,
-  String $config_dir      = $mariadb::params::config_dir,
+  Boolean $notify_service           = true,
+  Stdlib::Absolutepath $config_dir  = $mariadb::params::config_dir,
 ) {
   include mariadb::params
   include mariadb::config
