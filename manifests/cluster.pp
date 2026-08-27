@@ -25,6 +25,8 @@
 #     Ensure value for the server packages. Set to `present` or a version number.
 #   [*galera_ensure*]
 #     The galera package ensure value.
+#   [*debiansysmaint_password*]
+#     Password for the debian-sys-maint user. Accepts a Sensitive value.
 #   [*status_password*]
 #     The password for the status user. Accepts a Sensitive value.
 #   [*config_hash*]
@@ -64,10 +66,9 @@ class mariadb::cluster (
   Boolean          $single_cluster_peer = true,
   Boolean          $manage_status       = true,
 ) inherits mariadb::params {
+  include mariadb
 
-  include ::mariadb
-
-  package { $::mariadb::galera_name:
+  package { $mariadb::galera_name:
     ensure => $galera_ensure,
   }
 
@@ -76,12 +77,12 @@ class mariadb::cluster (
   }
 
   if $wsrep_sst_method == 'mariabackup' {
-    stdlib::ensure_packages([$::mariadb::backup_package_name])
+    stdlib::ensure_packages([$mariadb::backup_package_name])
   }
 
   class { 'mariadb::server':
     package_ensure          => $package_ensure,
-    package_names           => $::mariadb::cluster_package_names,
+    package_names           => $mariadb::cluster_package_names,
     debiansysmaint_password => $debiansysmaint_password,
     config_hash             => $config_hash,
     enabled                 => $enabled,
@@ -118,5 +119,4 @@ class mariadb::cluster (
     content => Sensitive(template('mariadb/galera_replication.cnf.erb')),
     require => Class['mariadb::server'],
   }
-
 }

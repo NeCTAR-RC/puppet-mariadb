@@ -1,0 +1,21 @@
+repos:
+  - repo: local
+    hooks:
+      - id: puppet-lint-voxpupuli
+        name: puppet-lint with Vox Pupuli plugins
+        entry: puppet-lint
+        language: ruby
+        # Not ideal but rbenv hardcodes ruby versions (where prek doesn't)
+        # and so can't resolve a new enough version for this gem
+        language_version: system
+        files: '(\.pp$|(^|/)(data/.*|hiera)\.ya?ml$)'
+        additional_dependencies:
+          - voxpupuli-puppet-lint-plugins:7.0.0
+        args:
+          - --fail-on-warnings
+          - --fix
+          - --relative
+  - repo: https://github.com/google/yamlfmt/
+    rev: v0.13.0
+    hooks:
+      - id: yamlfmt

@@ -11,7 +11,6 @@
 # Sample Usage:
 #
 class mariadb::params {
-
   $bind_address          = '127.0.0.1'
   $port                  = 3306
   $etc_root_password     = false
@@ -51,7 +50,7 @@ class mariadb::params {
       $ssl_key                = "${config_dir}/server-key.pem"
       $repo_class             = 'mariadb::repo::redhat'
       $wsrep_provider         = '/usr/lib64/galera/libgalera_smm.so'
-      $default_mirror         = '"http://yum.mariadb.org'
+      $default_mirror         = 'http://yum.mariadb.org'
       $backup_package_name    = 'MariaDB-backup'
     }
 
@@ -79,7 +78,7 @@ class mariadb::params {
       $root_group             = 'root'
       $ssl_ca                 = "${config_dir}/cacert.pem"
       $ssl_cert               = "${config_dir}/server-cert.pem"
-      $ssl_key                = "${config_dir}//server-key.pem"
+      $ssl_key                = "${config_dir}/server-key.pem"
       $repo_class             = 'mariadb::repo::debian'
       $wsrep_provider         = '/usr/lib/galera/libgalera_smm.so'
       $default_mirror         = 'http://mirror.aarnet.edu.au/pub/MariaDB'
@@ -87,8 +86,8 @@ class mariadb::params {
     }
 
     default: {
-      fail("Unsupported osfamily: ${facts['os']['family']} operatingsystem: ${facts['os']['name']}, module ${module_name} only support osfamily RedHat, Debian")
+      $os_info = "osfamily: ${facts['os']['family']} operatingsystem: ${facts['os']['name']}"
+      fail("Unsupported ${os_info}, module ${module_name} only support osfamily RedHat, Debian")
     }
   }
-
 }

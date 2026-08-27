@@ -7,8 +7,8 @@
 #     Ensure value for the package. Set to `present` or a version number.
 #     If setting a version number see note below on `version`. Ex.
 #     '5.5.37'.
-#   [*package_names*]
-#     Array of names of the mariadb client packages.
+#   [*mirror*]
+#     URL of the MariaDB download mirror used by the repo classes.
 #   [*version*]
 #     Sets the version string for mariadb. For Debian-based systems a
 #     'major.minor' version is expected. Ex. '5.5'. Set a more specific
@@ -30,7 +30,6 @@ class mariadb (
   Boolean   $manage_repo    = true,
   String[1] $mirror         = $mariadb::params::default_mirror
 ) inherits mariadb::params {
-
   case $facts['os']['family'] {
     'RedHat': {
       $server_package_names  = $mariadb::params::server_package_names
@@ -100,14 +99,15 @@ class mariadb (
       }
     }
     default: {
-      fail("Unsupported osfamily: ${facts['os']['family']} operatingsystem: ${facts['os']['name']}, module ${module_name} only support osfamily RedHat, Debian")
+      $os_info = "osfamily: ${facts['os']['family']} operatingsystem: ${facts['os']['name']}"
+      fail("Unsupported ${os_info}, module ${module_name} only support osfamily RedHat, Debian")
     }
   }
 
   if $manage_repo == true {
     # Set up repositories
-    class { $::mariadb::params::repo_class: }
-    Class[$mariadb::params::repo_class]->Class['mariadb::package']
+    class { $mariadb::params::repo_class: }
+    Class[$mariadb::params::repo_class] -> Class['mariadb::package']
   }
 
   # Packages
@@ -115,5 +115,4 @@ class mariadb (
     package_names  => $client_package_names,
     package_ensure => $package_ensure,
   }
-
 }

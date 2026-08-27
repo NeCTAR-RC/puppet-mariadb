@@ -9,9 +9,16 @@
 #   [*backupdir*]      - The target directory of the mariadbdump.
 #   [*backupcompress*] - Boolean to compress backup with bzip2.
 #   [*backupdays*]     - Number of days of backups to keep.
+#   [*backuphour*]     - Hour of day to run the backup cron job.
+#   [*backuphour_random*] - If true, run the backup at a per-host random hour
+#                        between 0 and backuphour instead of at backuphour.
 #   [*onefile*]        - Dump all DBs into one file?
 #   [*ensure*]         - Specify if database backup is present or absent.
 #   [*backupmethod*]   - Backup methods to select: mysqldump or mariabackup
+#   [*compresstype*]   - Compression type: gzip, xz or bzip2.
+#   [*compressparallel*] - If true, use a parallel compression tool.
+#   [*compressthreads*] - Number of threads to use when compressing in
+#                        parallel.
 #
 # Actions:
 #   GRANT SELECT, RELOAD, LOCK TABLES ON *.* TO 'user'@'localhost'
@@ -44,8 +51,7 @@ class mariadb::backup (
   Boolean $compressparallel = false,
   Integer[1] $compressthreads = min($facts['processors']['count']/2, 2),
 ) {
-
-  include ::mariadb
+  include mariadb
 
   $real_backuppassword = $backuppassword.unwrap
 
@@ -55,10 +61,10 @@ class mariadb::backup (
     require       => Class['mariadb::server'],
   }
 
-  if (versioncmp($::mariadb::version, '10.5') >= 0) {
-    $grant = [ 'SELECT', 'RELOAD', 'LOCK TABLES', 'SHOW VIEW', 'BINLOG MONITOR', 'PROCESS', 'SUPER' ]
+  if (versioncmp($mariadb::version, '10.5') >= 0) {
+    $grant = ['SELECT', 'RELOAD', 'LOCK TABLES', 'SHOW VIEW', 'BINLOG MONITOR', 'PROCESS', 'SUPER']
   } else {
-    $grant = [ 'SELECT', 'RELOAD', 'LOCK TABLES', 'SHOW VIEW', 'REPLICATION CLIENT', 'PROCESS', 'SUPER' ]
+    $grant = ['SELECT', 'RELOAD', 'LOCK TABLES', 'SHOW VIEW', 'REPLICATION CLIENT', 'PROCESS', 'SUPER']
   }
   mysql_grant { "${backupuser}@localhost/*.*":
     user       => "${backupuser}@localhost",
@@ -98,14 +104,13 @@ class mariadb::backup (
         }
       }
       default: {
-          fail('Unknown compression type. Must be one of gzip, xz or bzip2')
+        fail('Unknown compression type. Must be one of gzip, xz or bzip2')
       }
     }
-
   }
 
   if $backupmethod == 'mariabackup' {
-    stdlib::ensure_packages([$::mariadb::backup_package_name])
+    stdlib::ensure_packages([$mariadb::backup_package_name])
     $backupscript = 'mariabackup.sh'
   } else {
     $backupscript = 'mysqlbackup.sh'
@@ -138,7 +143,7 @@ class mariadb::backup (
   exec { "Create ${backupdir}":
     creates => $backupdir,
     command => "mkdir -p ${backupdir}",
-    path    => $facts['path']
+    path    => $facts['path'],
   } -> file { 'mysqlbackupdir':
     ensure => 'directory',
     path   => $backupdir,

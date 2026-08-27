@@ -15,7 +15,7 @@
 class mariadb::server::mysqltuner {
   # mysql performance tester
   file { '/usr/bin/mysqltuner':
-    ensure => present,
+    ensure => file,
     mode   => '0550',
     source => 'puppet:///modules/mariadb/mysqltuner.pl',
   }

@@ -1,14 +1,23 @@
+# Class: mariadb::server::monitor
+#
+# Manages a database user for monitoring.
+#
+# Parameters:
+#   [*mariadb_monitor_username*] - The monitor user name.
+#   [*mariadb_monitor_password*] - The monitor user password. Accepts a
+#                                  Sensitive value.
+#   [*mariadb_monitor_hostname*] - The host the monitor user connects from.
+#
 class mariadb::server::monitor (
   String[1] $mariadb_monitor_username,
   Variant[String[1], Sensitive[String[1]]] $mariadb_monitor_password,
   String[1] $mariadb_monitor_hostname
 ) {
-
   Class['mariadb::server'] -> Class['mariadb::server::monitor']
 
   $real_mariadb_monitor_password = $mariadb_monitor_password.unwrap
 
-  database_user{ "${mariadb_monitor_username}@${mariadb_monitor_hostname}":
+  database_user { "${mariadb_monitor_username}@${mariadb_monitor_hostname}":
     ensure        => present,
     password_hash => Sensitive(mysql_password($real_mariadb_monitor_password)),
   }
@@ -16,8 +25,7 @@ class mariadb::server::monitor (
   mysql_grant { "${mariadb_monitor_username}@${mariadb_monitor_hostname}/*.*":
     user       => "${mariadb_monitor_username}@${mariadb_monitor_hostname}",
     table      => '*.*',
-    privileges => [ 'PROCESS', 'SUPER' ],
+    privileges => ['PROCESS', 'SUPER'],
     require    => Database_user["${mariadb_monitor_username}@${mariadb_monitor_hostname}"],
   }
-
 }

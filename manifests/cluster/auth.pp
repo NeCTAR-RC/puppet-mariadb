@@ -1,8 +1,16 @@
+# Class: mariadb::cluster::auth
+#
+# Manages the database user used for galera replication.
+#
+# Parameters:
+#   [*wsrep_sst_password*] - Password for the replication user. Accepts a
+#                            Sensitive value.
+#   [*wsrep_sst_user*]     - The replication user name.
+#
 class mariadb::cluster::auth (
   Variant[String[1], Sensitive[String[1]]] $wsrep_sst_password,
   String[1] $wsrep_sst_user = 'root',
 ) {
-
   $real_wsrep_sst_password = $wsrep_sst_password.unwrap
 
   database_user { "${wsrep_sst_user}@%":
@@ -14,8 +22,7 @@ class mariadb::cluster::auth (
   mysql_grant { "${wsrep_sst_user}@%/*.*":
     user       => "${wsrep_sst_user}@%",
     table      => '*.*',
-    privileges => [ 'all' ],
+    privileges => ['all'],
     require    => Database_user["${wsrep_sst_user}@%"],
   }
-
 }

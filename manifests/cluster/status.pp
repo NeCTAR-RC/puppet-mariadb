@@ -1,8 +1,17 @@
+# Class: mariadb::cluster::status
+#
+# Manages the clustercheck scripts, xinetd service and status user used to
+# report galera cluster health.
+#
+# Parameters:
+#   [*status_user*]     - The cluster status user name.
+#   [*status_password*] - The password for the status user. Accepts a
+#                         Sensitive value.
+#
 class mariadb::cluster::status (
   String[1] $status_user,
   Variant[String[1], Sensitive[String[1]]] $status_password,
 ) {
-
   $real_status_password = $status_password.unwrap
 
   file { '/usr/local/bin/clustercheck':
@@ -47,7 +56,6 @@ class mariadb::cluster::status (
   mysql_grant { "${status_user}@localhost/*.*":
     user       => "${status_user}@localhost",
     table      => '*.*',
-    privileges => [ 'PROCESS' ],
+    privileges => ['PROCESS'],
   }
-
 }

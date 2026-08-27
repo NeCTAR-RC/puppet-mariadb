@@ -3,7 +3,8 @@
 # This class installs the mariadb-java-connector.
 #
 # Parameters:
-#   [*java_package_name*]  - The name of the mariadb java package.
+#   [*package_name*]   - The name of the mariadb java package.
+#   [*package_ensure*] - Ensure state for the package.
 #
 # Actions:
 #
@@ -15,10 +16,8 @@ class mariadb::java (
   String[1] $package_name   = $mariadb::params::java_package_name,
   String[1] $package_ensure = 'present'
 ) inherits mariadb::params {
-
   package { 'mysql-connector-java':
     ensure => $package_ensure,
     name   => $package_name,
   }
-
 }

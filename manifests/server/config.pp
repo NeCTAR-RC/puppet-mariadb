@@ -8,8 +8,13 @@
 # == Parameters:
 #
 # - name: is the name of the file
-# - notify_service: whether to notify the mariadb daemon or not (default: true)
-# - settings: either a string which should be the content of the file
+#
+# [*notify_service*] - whether to notify the mariadb daemon or not
+#     (default: true)
+#
+# [*config_dir*] - the directory the config file is created in
+#
+# [*settings*] - either a string which should be the content of the file
 #     or a hash with the following structure
 #
 #     section => {

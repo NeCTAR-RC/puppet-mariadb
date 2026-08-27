@@ -9,18 +9,24 @@
 #   [*port*]              - port to bind service.
 #   [*etc_root_password*] - whether to save /etc/my.cnf.
 #   [*service_name*]      - mariadb service name.
+#   [*config_dir*]        - path to the conf.d configuration directory.
 #   [*config_file*]       - my.cnf configuration file path.
+#   [*config_file_symlink*] - whether to symlink /etc/mysql/my.cnf to
+#                           config_file.
 #   [*socket*]            - mariadb socket.
+#   [*pidfile*]           - path to the pid file.
 #   [*datadir*]           - path to datadir.
 #   [*tmpdir*]            - path to tmpdir.
-#   [*ssl]                - enable ssl
-#   [*ssl_ca]             - path to ssl-ca
-#   [*ssl_cert]           - path to ssl-cert
-#   [*ssl_key]            - path to ssl-key
-#   [*log_error]          - path to mariadb error log
-#   [*default_engine]     - configure a default table engine
-#   [*root_group]         - use specified group for root-owned files
-#   [*restart]            - whether to restart mariadbd (true/false)
+#   [*ssl*]               - enable ssl
+#   [*ssl_ca*]            - path to ssl-ca
+#   [*ssl_cert*]          - path to ssl-cert
+#   [*ssl_key*]           - path to ssl-key
+#   [*log_error*]         - path to mariadb error log
+#   [*default_engine*]    - configure a default table engine
+#   [*root_group*]        - use specified group for root-owned files
+#   [*restart*]           - whether to restart mariadbd (true/false)
+#   [*purge_conf_dir*]    - whether to purge unmanaged files from the conf.d
+#                           configuration directory
 #
 # Actions:
 #
@@ -35,7 +41,7 @@
 #     bind_address  => $::ipaddress,
 #   }
 #
-class mariadb::config(
+class mariadb::config (
   Variant[String, Sensitive[String]] $root_password               = 'UNSET',
   Optional[Variant[String, Sensitive[String]]] $old_root_password = undef,
   String[1]                     $bind_address        = $mariadb::params::bind_address,
@@ -59,18 +65,19 @@ class mariadb::config(
   Boolean                       $restart             = $mariadb::params::restart,
   Boolean                       $purge_conf_dir      = false
 ) inherits mariadb::params {
-
   $real_root_password = $root_password.unwrap
   $real_old_root_password = $old_root_password.unwrap
+
+  $restart_notify = $restart ? {
+    true  => Exec['mariadb-restart'],
+    false => undef,
+  }
 
   File {
     owner  => 'root',
     group  => $root_group,
     mode   => '0400',
-    notify    => $restart ? {
-      true => Exec['mariadb-restart'],
-      false => undef,
-    },
+    notify => $restart_notify,
   }
 
   if $ssl and $ssl_ca == undef {
@@ -107,10 +114,7 @@ class mariadb::config(
       logoutput => true,
       unless    => Sensitive("mysqladmin -u root -p'${real_root_password}' status > /dev/null"),
       path      => '/usr/local/sbin:/usr/bin:/usr/local/bin',
-      notify    => $restart ? {
-        true  => Exec['mariadb-restart'],
-        false => undef,
-      },
+      notify    => $restart_notify,
       require   => File[$mariadb::params::config_dir],
     }
 
@@ -120,14 +124,14 @@ class mariadb::config(
     }
 
     if $etc_root_password {
-      file{ '/etc/my.cnf':
+      file { '/etc/my.cnf':
         content => Sensitive(template('mariadb/my.cnf.pass.erb')),
         require => Exec['set_mariadb_rootpw'],
       }
     }
   } else {
     file { '/root/.my.cnf':
-      ensure  => present,
+      ensure => file,
     }
   }
 
@@ -144,18 +148,18 @@ class mariadb::config(
     purge   => $purge_conf_dir,
   }
   file { $config_file:
-    content => template("mariadb/my.cnf-${::mariadb::version}.erb"),
+    content => template("mariadb/my.cnf-${mariadb::version}.erb"),
     mode    => '0644',
   }
 
   if $config_file_symlink {
-    file {'/etc/mysql/my.cnf':
+    file { '/etc/mysql/my.cnf':
       ensure => link,
       target => $config_file,
     }
   }
 
-  $debiansysmaint_password = $::mariadb::server::debiansysmaint_password
+  $debiansysmaint_password = $mariadb::server::debiansysmaint_password
   if $debiansysmaint_password != undef {
     $real_debiansysmaint_password = $debiansysmaint_password.unwrap
 
@@ -163,5 +167,4 @@ class mariadb::config(
       content => Sensitive(template('mariadb/debian.cnf.erb')),
     }
   }
-
 }

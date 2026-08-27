@@ -1,19 +1,27 @@
+# Class: mariadb::repo::debian
+#
+# Sets up the apt repo for MariaDB.
+#
+# Parameters:
+#   [*key_id*]     - Fingerprint of the repository GPG key.
+#   [*key_source*] - URL to fetch the repository GPG key from.
+#
 class mariadb::repo::debian (
   String $key_id     = '177F4010FE56CA3336300305F1656F24C74CD1D8',
   String $key_source = 'https://supplychain.mariadb.com/MariaDB-Server-GPG-KEY',
-){
+) {
   $os = downcase($facts['os']['name'])
 
   include mariadb
   include apt
 
   apt::source { 'mariadb':
-    location => "${::mariadb::mirror}/repo/${::mariadb::version}/${os}",
+    location => "${mariadb::mirror}/repo/${mariadb::version}/${os}",
     release  => $facts['os']['distro']['codename'],
     repos    => 'main',
     pin      => {
       originator => 'mariadb',
-      priority   =>  1001,
+      priority   => 1001,
     },
     key      => {
       name   => 'mariadb.asc',
@@ -23,5 +31,4 @@ class mariadb::repo::debian (
   }
 
   Class['apt::update'] -> Package <| tag == 'mariadb' |>
-
 }

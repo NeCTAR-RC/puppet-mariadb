@@ -18,9 +18,8 @@
 #     If true, enable the service to start on boot.
 #   [*manage_service*]
 #     If true, manage the service.
-#   [*mirror*]
-#     Set the URL to the download mirror (Note: All but the operatingsystem /debian|/ubuntu)
-#   [*config_hash*]   - hash of config parameters that need to be set.
+#   [*debiansysmaint_password*]
+#     Password for the debian-sys-maint user. Accepts a Sensitive value.
 #
 # Actions:
 #
@@ -38,11 +37,10 @@ class mariadb::server (
   Boolean                    $enabled          = true,
   Boolean                    $manage_service   = true,
 ) inherits mariadb::params {
-
-  include ::mariadb
+  include mariadb
 
   if $package_names == undef {
-    $real_package_names = $::mariadb::server_package_names
+    $real_package_names = $mariadb::server_package_names
   } else {
     $real_package_names = $package_names
   }
@@ -54,7 +52,7 @@ class mariadb::server (
   create_resources( 'class', $config_class )
 
   package { $real_package_names:
-    ensure  => $package_ensure,
+    ensure => $package_ensure,
   }
 
   file { '/var/log/mysql/error.log':
@@ -88,7 +86,7 @@ class mariadb::server (
     }
   }
   if $debiansysmaint_password {
-    class {'mariadb::server::debiansysmaint':
+    class { 'mariadb::server::debiansysmaint':
       password => $debiansysmaint_password,
     }
   }

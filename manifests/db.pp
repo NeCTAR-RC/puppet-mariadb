@@ -43,7 +43,6 @@ define mariadb::db (
   Boolean                   $enforce_sql = false,
   Enum['present', 'absent'] $ensure      = 'present'
 ) {
-
   $_password = $password.unwrap
 
   if $mariadb::version == '10.6' and $charset == 'utf8' {
@@ -79,7 +78,7 @@ define mariadb::db (
     $refresh = ! $enforce_sql
 
     if $sql {
-      exec{ "${name}-import":
+      exec { "${name}-import":
         command     => "/usr/bin/mysql ${name} < ${sql}",
         logoutput   => true,
         refreshonly => $refresh,
