@@ -16,6 +16,6 @@ repos:
           - --fix
           - --relative
   - repo: https://github.com/google/yamlfmt/
-    rev: v0.13.0
+    rev: v0.21.0
     hooks:
       - id: yamlfmt
