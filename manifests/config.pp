@@ -110,9 +110,9 @@ class mariadb::config (
     }
 
     exec { 'set_mariadb_rootpw':
-      command   => Sensitive("mysqladmin -u root ${old_pw} password '${real_root_password}'"),
+      command   => Sensitive("mariadb-admin -u root ${old_pw} password '${real_root_password}'"),
       logoutput => true,
-      unless    => Sensitive("mysqladmin -u root -p'${real_root_password}' status > /dev/null"),
+      unless    => Sensitive("mariadb-admin -u root -p'${real_root_password}' status > /dev/null"),
       path      => '/usr/local/sbin:/usr/bin:/usr/local/bin',
       notify    => $restart_notify,
       require   => File[$mariadb::params::config_dir],

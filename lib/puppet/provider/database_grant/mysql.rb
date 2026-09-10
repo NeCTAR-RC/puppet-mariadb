@@ -9,8 +9,10 @@ Puppet::Type.type(:database_grant).provide(:mysql) do
 
   defaultfor :kernel => 'Linux'
 
-  optional_commands :mysql      => 'mysql'
-  optional_commands :mysqladmin => 'mysqladmin'
+  # MariaDB 11.4+ no longer ships the mysql/mysqladmin command names, so use
+  # the mariadb-named binaries (available since MariaDB 10.4.6).
+  optional_commands :mariadb       => 'mariadb'
+  optional_commands :mariadb_admin => 'mariadb-admin'
 
   def self.prefetch(resources)
     @user_privs = query_user_privs
@@ -34,19 +36,19 @@ Puppet::Type.type(:database_grant).provide(:mysql) do
   end
 
   def self.query_user_privs
-    results = mysql([defaults_file, "mysql", "-Be", "describe user"].compact)
+    results = mariadb([defaults_file, "mysql", "-Be", "describe user"].compact)
     column_names = results.split(/\n/).map { |l| l.chomp.split(/\t/)[0] }
     @user_privs = column_names.delete_if { |e| !( e =~/_priv$/) }
   end
 
   def self.query_db_privs
-    results = mysql([defaults_file, "mysql", "-Be", "describe db"].compact)
+    results = mariadb([defaults_file, "mysql", "-Be", "describe db"].compact)
     column_names = results.split(/\n/).map { |l| l.chomp.split(/\t/)[0] }
     @db_privs = column_names.delete_if { |e| !(e =~/_priv$/) }
   end
 
   def mysql_flush
-    mysqladmin([defaults_file, "flush-privileges"].compact)
+    mariadb_admin([defaults_file, "flush-privileges"].compact)
   end
 
   # this parses the
@@ -74,11 +76,11 @@ Puppet::Type.type(:database_grant).provide(:mysql) do
       name = split_name(@resource[:name])
       case name[:type]
       when :user
-        mysql([defaults_file, "mysql", "-e", "INSERT INTO user (host, user) VALUES ('%s', '%s')" % [
+        mariadb([defaults_file, "mysql", "-e", "INSERT INTO user (host, user) VALUES ('%s', '%s')" % [
           name[:host], name[:user],
         ]].compact)
       when :db
-        mysql([defaults_file, "mysql", "-e", "INSERT INTO db (host, user, db) VALUES ('%s', '%s', '%s')" % [
+        mariadb([defaults_file, "mysql", "-e", "INSERT INTO db (host, user, db) VALUES ('%s', '%s', '%s')" % [
           name[:host], name[:user], name[:db],
         ]].compact)
       end
@@ -87,7 +89,7 @@ Puppet::Type.type(:database_grant).provide(:mysql) do
   end
 
   def destroy
-    mysql([defaults_file, "mysql", "-e", "REVOKE ALL ON '%s'.* FROM '%s@%s'" % [ @resource[:privileges], @resource[:database], @resource[:name], @resource[:host] ]].compact)
+    mariadb([defaults_file, "mysql", "-e", "REVOKE ALL ON '%s'.* FROM '%s@%s'" % [ @resource[:privileges], @resource[:database], @resource[:name], @resource[:host] ]].compact)
   end
 
   def row_exists?
@@ -96,7 +98,7 @@ Puppet::Type.type(:database_grant).provide(:mysql) do
     if name[:type] == :db
       fields << :db
     end
-    not mysql([defaults_file, "mysql", '-NBe', 'SELECT "1" FROM %s WHERE %s' % [ name[:type], fields.map do |f| "%s=\"%s\"" % [f, name[f]] end.join(' AND ')]].compact).empty?
+    not mariadb([defaults_file, "mysql", '-NBe', 'SELECT "1" FROM %s WHERE %s' % [ name[:type], fields.map do |f| "%s=\"%s\"" % [f, name[f]] end.join(' AND ')]].compact).empty?
   end
 
   def all_privs_set?
@@ -118,9 +120,9 @@ Puppet::Type.type(:database_grant).provide(:mysql) do
 
     case name[:type]
     when :user
-      privs = mysql([defaults_file, "mysql", "-Be", 'select * from mysql.user where user="%s" and host="%s"' % [ name[:user], name[:host] ]].compact)
+      privs = mariadb([defaults_file, "mysql", "-Be", 'select * from mysql.user where user="%s" and host="%s"' % [ name[:user], name[:host] ]].compact)
     when :db
-      privs = mysql([defaults_file, "mysql", "-Be", 'select * from mysql.db where user="%s" and host="%s" and db="%s"' % [ name[:user], name[:host], name[:db] ]].compact)
+      privs = mariadb([defaults_file, "mysql", "-Be", 'select * from mysql.db where user="%s" and host="%s" and db="%s"' % [ name[:user], name[:host], name[:db] ]].compact)
     end
 
     if privs.match(/^$/)
@@ -172,7 +174,7 @@ Puppet::Type.type(:database_grant).provide(:mysql) do
     stmt = stmt << set << where
 
     validate_privs privs, all_privs
-    mysql([defaults_file, "mysql", "-Be", stmt].compact)
+    mariadb([defaults_file, "mysql", "-Be", stmt].compact)
     mysql_flush
   end
 

@@ -55,6 +55,28 @@ class mariadb::server (
     ensure => $package_ensure,
   }
 
+  # MariaDB 11.4+ packages no longer ship the mysql-named command symlinks,
+  # but the puppetlabs-mysql providers (mysql_grant, mysql_user etc.) are
+  # only considered suitable when the mysql, mysqld and mysqladmin commands
+  # all exist. Restore the symlinks so those providers keep working.
+  if versioncmp($mariadb::version, '11.4') >= 0 {
+    file {
+      default:
+        ensure  => link,
+        require => Package[$real_package_names],
+      ;
+      '/usr/bin/mysql':
+        target => '/usr/bin/mariadb',
+      ;
+      '/usr/bin/mysqladmin':
+        target => '/usr/bin/mariadb-admin',
+      ;
+      '/usr/sbin/mysqld':
+        target => '/usr/sbin/mariadbd',
+      ;
+    }
+  }
+
   file { '/var/log/mysql/error.log':
     owner   => mysql,
     require => Package[$real_package_names],

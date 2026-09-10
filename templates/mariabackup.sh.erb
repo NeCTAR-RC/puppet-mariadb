@@ -11,7 +11,7 @@ DAYS=<%= @backupdays %>
 
 ##### STOP CONFIG ####################################################
 CREDS="-u$USER -p$PASS"
-MARIABACKUP="mariabackup $CREDS --lock-ddl-per-table --backup --stream=xbstream --open-files-limit=4096 --galera-info"
+MARIABACKUP="mariadb-backup $CREDS --lock-ddl-per-table --backup --stream=xbstream --open-files-limit=4096 --galera-info"
 DATE=$(date +%Y%m%d-%H%M%S)
 PATH=/usr/bin:/usr/sbin:/bin:/sbin
 
@@ -25,7 +25,7 @@ FNAME="$DIR/$TARGET.bin<% if @backupcompress %>.<%= @compress_extension %><% end
 { $MARIABACKUP <% if @backupcompress %>| <%= @compress_command %> <% end %>> $FNAME.inprogress; } 2> $DIR/$TARGET.log
 mv $FNAME.inprogress $FNAME
 <%- else -%>
-for DB in $(mysql $CREDS -N -s -e "show databases;"); do
+for DB in $(mariadb $CREDS -N -s -e "show databases;"); do
     TARGET="maria_backup_$DATE-$DB"
     FNAME="$DIR/$TARGET.bin<% if @backupcompress %>.<%= @compress_extension %><% end %>"
     { $MARIABACKUP --databases $DB <% if @backupcompress %>| <%= @compress_command %> <% end %>>$FNAME.inprogress; } 2> $DIR/$TARGET.log

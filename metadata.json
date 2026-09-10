@@ -7,7 +7,7 @@
         },
         {
             "name": "puppetlabs/mysql",
-            "version_requirement": ">=8.0.0"
+            "version_requirement": ">=15.0.0"
         },
         {
             "name": "puppetlabs/stdlib",

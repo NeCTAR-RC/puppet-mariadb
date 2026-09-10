@@ -77,10 +77,10 @@ define mariadb::db (
 
     if $sql {
       exec { "${name}-import":
-        command     => "/usr/bin/mysql ${name} < ${sql}",
+        command     => "/usr/bin/mariadb ${name} < ${sql}",
         logoutput   => true,
         refreshonly => $refresh,
-        require     => Database_grant["${user}@${host}/${name}"],
+        require     => Mysql_grant["${user}@${host}/${name}.*"],
         subscribe   => Database[$name],
       }
     }

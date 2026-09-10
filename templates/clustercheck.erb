@@ -32,8 +32,8 @@ ERR_FILE="/tmp/clustercheck.err"
 # We perform a simple query that should return a few results :-p
 #
 
-WSSREP_STATUS=`mysql --host=$MYSQL_HOST --user=$MYSQL_USERNAME --password=$MYSQL_PASSWORD -e "show status like 'wsrep_local_state';" | awk '{if (NR!=1){print $2}}' 2>/dev/null`
-GCOMM_ADDRESS=`mysql --host=$MYSQL_HOST --user=$MYSQL_USERNAME --password=$MYSQL_PASSWORD -e "show variables like 'wsrep_cluster_address';" | awk '{if (NR!=1){print $2}}' 2>/dev/null`
+WSSREP_STATUS=`mariadb --host=$MYSQL_HOST --user=$MYSQL_USERNAME --password=$MYSQL_PASSWORD -e "show status like 'wsrep_local_state';" | awk '{if (NR!=1){print $2}}' 2>/dev/null`
+GCOMM_ADDRESS=`mariadb --host=$MYSQL_HOST --user=$MYSQL_USERNAME --password=$MYSQL_PASSWORD -e "show variables like 'wsrep_cluster_address';" | awk '{if (NR!=1){print $2}}' 2>/dev/null`
 
 if [ "$WSSREP_STATUS" == "4" ] && [ "$GCOMM_ADDRESS" != 'gcomm://' ]
 then

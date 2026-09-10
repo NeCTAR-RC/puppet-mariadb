@@ -17,7 +17,7 @@ DAYS=<%= @backupdays %>
 
 ##### STOP CONFIG ####################################################
 CREDS="-u$USER -p$PASS"
-MYSQLDUMP="mysqldump $CREDS --opt --flush-logs --single-transaction"
+MYSQLDUMP="mariadb-dump $CREDS --opt --flush-logs --single-transaction"
 DATE=$(date +%Y%m%d-%H%M%S)
 PATH=/usr/bin:/usr/sbin:/bin:/sbin
 
@@ -29,7 +29,7 @@ FNAME="$DIR/$TARGET.sql<% if @backupcompress %>.<%= @compress_extension %><% end
 { $MYSQLDUMP --all-databases <% if @backupcompress %>| <%= @compress_command %> <% end %>> $FNAME.inprogress; } 2> $DIR/$TARGET.log
 mv $FNAME.inprogress $FNAME
 <%- else -%>
-for DB in $(mysql $CREDS -N -s -e "show databases;"); do
+for DB in $(mariadb $CREDS -N -s -e "show databases;"); do
     TARGET="mysql_backup_$DATE-$DB"
     FNAME="$DIR/$TARGET.bin<% if @backupcompress %>.<%= @compress_extension %><% end %>"
     { $MYSQLDUMP --databases $DB <% if @backupcompress %>| <%= @compress_command %> <% end %>>$FNAME.inprogress; } 2> $DIR/$TARGET.log
