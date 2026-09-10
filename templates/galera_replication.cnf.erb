@@ -19,7 +19,9 @@ wsrep_node_incoming_address = <%= @facts.dig('networking', 'interfaces', @cluste
 binlog_format = ROW
 default_storage_engine = InnoDB
 innodb_autoinc_lock_mode = 2
+<%- if (@maria_version.to_s.split('.').map(&:to_i) <=> [10, 5]) < 0 -%>
 innodb_locks_unsafe_for_binlog = 1
+<%- end -%>
 
 <%- if @wsrep_sst_method == 'xtrabackup' or @wsrep_sst_method == 'xtrabackup-v2' -%>
 [sst]

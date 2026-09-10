@@ -61,28 +61,7 @@ class mariadb (
           $galera_name           = 'galera-4'
           $backup_package_name   = 'mariadb-backup'
         }
-        '10.5': {
-          $server_package_names  = ['mariadb-server']
-          $cluster_package_names = $server_package_names
-          $client_package_names  = ['mysql-common', 'mariadb-client']
-          $galera_name           = 'galera-4'
-          $backup_package_name   = 'mariadb-backup'
-        }
-        '10.6': {
-          $server_package_names  = ['mariadb-server']
-          $cluster_package_names = $server_package_names
-          $client_package_names  = ['mysql-common', 'mariadb-client']
-          $galera_name           = 'galera-4'
-          $backup_package_name   = 'mariadb-backup'
-        }
-        '10.11': {
-          $server_package_names  = ['mariadb-server']
-          $cluster_package_names = $server_package_names
-          $client_package_names  = ['mysql-common', 'mariadb-client']
-          $galera_name           = 'galera-4'
-          $backup_package_name   = 'mariadb-backup'
-        }
-        '11.4': {
+        '10.5', '10.6', '10.11', '11.4', '11.8', '12.3': {
           $server_package_names  = ['mariadb-server']
           $cluster_package_names = $server_package_names
           $client_package_names  = ['mysql-common', 'mariadb-client']
