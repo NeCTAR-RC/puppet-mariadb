@@ -15,7 +15,7 @@
         },
         {
             "name": "puppetlabs/apt",
-            "version_requirement": ">=6.0.0 <12"
+            "version_requirement": ">=9.2.0 <12"
         }
     ],
     "description": "Installs and configures MariaDB",
