@@ -115,7 +115,7 @@ class mariadb::config (
       unless    => Sensitive("mariadb-admin -u root -p'${real_root_password}' status > /dev/null"),
       path      => '/usr/local/sbin:/usr/bin:/usr/local/bin',
       notify    => $restart_notify,
-      require   => File[$mariadb::params::config_dir],
+      require   => File[$config_dir],
     }
 
     file { '/root/.my.cnf':
