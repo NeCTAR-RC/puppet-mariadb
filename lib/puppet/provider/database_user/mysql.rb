@@ -10,7 +10,7 @@ Puppet::Type.type(:database_user).provide(:mysql) do
   optional_commands :mariadb_admin => 'mariadb-admin'
 
   def self.instances
-    users = mariadb([defaults_file, "mysql", '-BNe' "select concat(User, '@',Host) as User from mysql.user"].compact).split("\n")
+    users = mariadb([defaults_file, "mysql", '-BNe', "select concat(User, '@',Host) as User from mysql.user"].compact).split("\n")
     users.select{ |user| user =~ /.+@/ }.collect do |name|
       new(:name => name)
     end
