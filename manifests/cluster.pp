@@ -115,6 +115,9 @@ class mariadb::cluster (
 
   $wsrep_sst_auth = "${wsrep_sst_user}:${real_wsrep_sst_password}"
 
+  # Used by the template to decide on version-specific settings
+  $maria_version = $mariadb::version
+
   file { "${mariadb::params::config_dir}/galera_replication.cnf":
     content => Sensitive(template('mariadb/galera_replication.cnf.erb')),
     require => Class['mariadb::server'],
