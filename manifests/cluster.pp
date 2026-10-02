@@ -104,9 +104,16 @@ class mariadb::cluster (
     }
   }
 
-  # Find the next server in the list as a peer to sync with
+  # Find the next server in the list as a peer to sync with. If this node's
+  # address is not in cluster_servers the peer is left empty, which gives
+  # 'gcomm://' and bootstraps a new cluster.
   if $single_cluster_peer == true {
-    $cluster_peer = inline_template("<% (0..@cluster_servers.length).each do |i|; if @cluster_servers[i] == @ipaddress_${cluster_iface}; if (i+1) == @cluster_servers.length %><%= @cluster_servers[0] %><% else %><%= @cluster_servers[i+1] %><% end; end; end %>")
+    $node_address = $facts.dig('networking', 'interfaces', $cluster_iface, 'ip')
+    $node_index = $cluster_servers.index |$server| { $server == $node_address }
+    $cluster_peer = $node_index ? {
+      Undef   => '',
+      default => $cluster_servers[($node_index + 1) % length($cluster_servers)],
+    }
   } else {
     $cluster_peer = join($cluster_servers,',')
   }
