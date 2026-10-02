@@ -11,7 +11,8 @@
 #   [*backupdays*]     - Number of days of backups to keep.
 #   [*backuphour*]     - Hour of day to run the backup cron job.
 #   [*backuphour_random*] - If true, run the backup at a per-host random hour
-#                        between 0 and backuphour instead of at backuphour.
+#                        between 0 and backuphour - 1 instead of at
+#                        backuphour. Has no effect when backuphour is 0.
 #   [*onefile*]        - Dump all DBs into one file?
 #   [*ensure*]         - Specify if database backup is present or absent.
 #   [*backupmethod*]   - Backup methods to select: mysqldump or mariabackup
@@ -116,7 +117,9 @@ class mariadb::backup (
     $backupscript = 'mysqlbackup.sh'
   }
 
-  if $backuphour_random {
+  # fqdn_rand requires a positive upper bound, so a backuphour of 0 can
+  # only ever mean midnight.
+  if $backuphour_random and $backuphour > 0 {
     $real_backuphour = fqdn_rand($backuphour)
   } else {
     $real_backuphour = $backuphour
