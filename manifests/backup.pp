@@ -49,7 +49,7 @@ class mariadb::backup (
   Enum['mysqldump', 'mariabackup'] $backupmethod = 'mysqldump',
   Enum['gzip', 'xz', 'bzip2'] $compresstype = 'bzip2',
   Boolean $compressparallel = false,
-  Integer[1] $compressthreads = min($facts['processors']['count']/2, 2),
+  Integer[1] $compressthreads = max(1, min($facts['processors']['count'] / 2, 2)),
 ) {
   include mariadb
 
