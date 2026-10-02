@@ -57,5 +57,6 @@ class mariadb::cluster::status (
     user       => "${status_user}@localhost",
     table      => '*.*',
     privileges => ['PROCESS'],
+    require    => Database_user["${status_user}@localhost"],
   }
 }
