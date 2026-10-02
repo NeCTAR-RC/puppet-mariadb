@@ -38,7 +38,7 @@ define mariadb::db (
   Variant[String[1], Sensitive[String[1]]] $password,
   String                    $charset     = 'utf8',
   String                    $host        = 'localhost',
-  String                    $grant       = 'all',
+  Variant[String[1], Array[String[1]]] $grant = 'all',
   Optional[String]          $sql         = undef,
   Boolean                   $enforce_sql = false,
   Enum['present', 'absent'] $ensure      = 'present'
