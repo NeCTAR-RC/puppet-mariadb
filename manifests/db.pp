@@ -43,6 +43,8 @@ define mariadb::db (
   Boolean                   $enforce_sql = false,
   Enum['present', 'absent'] $ensure      = 'present'
 ) {
+  include mariadb
+
   $_password = $password.unwrap
 
   if $mariadb::version == '10.6' and $charset == 'utf8' {
