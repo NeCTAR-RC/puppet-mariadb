@@ -31,7 +31,7 @@ mv $FNAME.inprogress $FNAME
 <%- else -%>
 for DB in $(mariadb $CREDS -N -s -e "show databases;"); do
     TARGET="mysql_backup_$DATE-$DB"
-    FNAME="$DIR/$TARGET.bin<% if @backupcompress %>.<%= @compress_extension %><% end %>"
+    FNAME="$DIR/$TARGET.sql<% if @backupcompress %>.<%= @compress_extension %><% end %>"
     { $MYSQLDUMP --databases $DB <% if @backupcompress %>| <%= @compress_command %> <% end %>>$FNAME.inprogress; } 2> $DIR/$TARGET.log
     mv $FNAME.inprogress $FNAME
 done
