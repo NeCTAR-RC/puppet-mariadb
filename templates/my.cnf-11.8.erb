@@ -19,6 +19,18 @@ lc_messages_dir	= /usr/share/mysql
 lc_messages	= en_US
 skip-external-locking
 
+#
+# * OpenStack compatibility
+#
+# MariaDB 11.5 changed the default Unicode collation to uca1400_ai_ci and
+# 11.6.2 turned innodb_snapshot_isolation on. OpenStack schema migrations
+# that add a foreign key to a table created under general_ci then fail with
+# errno 150, and SELECT-then-UPDATE paths such as the nova services heartbeat
+# fail with error 1020 until every service runs oslo.db >= 17.2.2.
+# Keep the pre-11.5 behaviour.
+character_set_collations = utf8mb3=utf8mb3_general_ci,utf8mb4=utf8mb4_general_ci
+innodb_snapshot_isolation = OFF
+
 <% if @bind_address %>
 bind-address    = <%= @bind_address %>
 <% end %>
