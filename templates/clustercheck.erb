@@ -29,6 +29,31 @@ TMP_FILE="/tmp/clustercheck.out"
 ERR_FILE="/tmp/clustercheck.err"
 
 #
+# Read the HTTP request before replying. If the script exits with the request
+# unread, the kernel resets the connection and discards any output still
+# queued. haproxy delays its ACK on check connections, so only the first
+# write ever reaches it before that reset; with the uutils echo on Ubuntu
+# 26.04 the first write is the bare status line, and the check fails.
+# Consuming the request turns the exit into a normal close, which delivers
+# everything queued before the connection ends.
+#
+while read -r -t 1 line; do
+    [ -z "${line%$'\r'}" ] && break
+done
+
+#
+# Send a well-formed HTTP reply. Content-Length lets the client finish reading
+# without waiting for the connection to close. bash's stdout is line
+# buffered, so this may still go out as several writes; that is fine now
+# that the connection closes normally.
+#
+reply() {
+    local body="$2"$'\r\n'
+    printf 'HTTP/1.1 %s\r\nContent-Type: text/plain\r\nContent-Length: %d\r\nConnection: close\r\n\r\n%s' \
+        "$1" "${#body}" "$body"
+}
+
+#
 # We perform a simple query that should return a few results :-p
 #
 
@@ -38,16 +63,8 @@ GCOMM_ADDRESS=`mariadb --host=$MYSQL_HOST --user=$MYSQL_USERNAME --password=$MYS
 if [ "$WSSREP_STATUS" == "4" ] && [ "$GCOMM_ADDRESS" != 'gcomm://' ]
 then
     # mysql is fine, return http 200
-    /bin/echo -e "HTTP/1.1 200 OK\r\n"
-    /bin/echo -e "Content-Type: Content-Type: text/plain\r\n"
-    /bin/echo -e "\r\n"
-    /bin/echo -e "Node is running.\r\n"
-    /bin/echo -e "\r\n"
+    reply "200 OK" "Node is running."
 else
-    # mysql is fine, return http 503
-    /bin/echo -e "HTTP/1.1 503 Service Unavailable\r\n"
-    /bin/echo -e "Content-Type: Content-Type: text/plain\r\n"
-    /bin/echo -e "\r\n"
-    /bin/echo -e "Node is *down*.\r\n"
-    /bin/echo -e "\r\n"
+    # mysql is not fine, return http 503
+    reply "503 Service Unavailable" "Node is *down*."
 fi
