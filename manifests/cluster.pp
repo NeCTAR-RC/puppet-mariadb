@@ -52,7 +52,7 @@ class mariadb::cluster (
   Variant[String[1], Sensitive[String[1]]] $wsrep_sst_password,
   Array[String[1]] $cluster_servers,
   String[1]        $cluster_iface       = 'eth0',
-  String[1]        $wsrep_sst_user      = 'root',
+  String[1]        $wsrep_sst_user      = 'sst',
   String[1]        $wsrep_cluster_name  = 'my_wsrep_cluster',
   String[1]        $status_user         = 'clusterstatus',
   String[1]        $wsrep_sst_method    = 'mysqldump',
