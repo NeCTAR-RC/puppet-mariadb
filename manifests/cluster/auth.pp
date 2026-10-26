@@ -20,7 +20,7 @@ class mariadb::cluster::auth (
   }
 
   mysql_grant { "${wsrep_sst_user}@localhost/*.*":
-    user       => "${wsrep_sst_user}@%",
+    user       => "${wsrep_sst_user}@localhost",
     table      => '*.*',
     privileges => ['RELOAD', 'PROCESS', 'LOCK TABLES', 'BINLOG MONITOR'],
     require    => Database_user["${wsrep_sst_user}@localhost"],
