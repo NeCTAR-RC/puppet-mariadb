@@ -23,6 +23,6 @@ class mariadb::cluster::auth (
     user       => "${wsrep_sst_user}@%",
     table      => '*.*',
     privileges => ['RELOAD', 'PROCESS', 'LOCK TABLES', 'BINLOG MONITOR'],
-    require    => Database_user["${wsrep_sst_user}@%"],
+    require    => Database_user["${wsrep_sst_user}@localhost"],
   }
 }
